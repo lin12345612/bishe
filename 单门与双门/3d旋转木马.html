@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .demo{
+            width: 800px;
+            min-height: 100px;
+            margin: 100px auto;
+            border: 1px solid red;
+            position: relative;
+            perspective: 800px;
+        }
+        .demo1{
+            width: 128px;
+            height: 220px;
+            position: absolute;
+            left: 50%;
+            margin-left: -150px;
+            transition: transform 1s;
+            transform-style: preserve-3d;
+            bottom: 0;
+            /* transform: rotateY(40deg); */
+        }
+        .piece {
+            width: 128px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.5);
+            -webkit-transition: opacity 1s, -webkit-transform 1s;
+            -moz-transition: opacity 1s, -moz-transform 1s;
+            transition: opacity 1s, transform 1s;
+            position: absolute;
+            bottom: 0;
+            }
+            img:nth-child(1) { transform: rotateY(   0deg ) translateZ(200px); }
+            img:nth-child(2) { transform: rotateY(  40deg ) translateZ(200px); }
+            img:nth-child(3) { transform: rotateY(  80deg ) translateZ(200px); }
+            img:nth-child(4) { transform: rotateY( 120deg ) translateZ(200px); }
+            img:nth-child(5) { transform: rotateY( 160deg ) translateZ(200px); }
+            img:nth-child(6) { transform: rotateY( 200deg ) translateZ(200px); }
+            img:nth-child(7) { transform: rotateY( 240deg ) translateZ(200px); }
+            img:nth-child(8) { transform: rotateY( 280deg ) translateZ(200px); }
+            img:nth-child(9) { transform: rotateY( 320deg ) translateZ(200px); }
+            button{
+                padding: 5px 10px;
+                background: lightblue;
+                color: #333;
+            }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <div class="demo1">
+            <img src="./1.jpg" alt="" class="piece">
+            <img src="./2.jpg" alt="" class="piece">
+            <img src="./3.jpg" alt="" class="piece">
+            <img src="./4.jpg" alt="" class="piece">
+            <img src="./5.jpg" alt="" class="piece">
+            <img src="./6.jpg" alt="" class="piece">
+            <img src="./7.jpg" alt="" class="piece">
+            <img src="./8.jpg" alt="" class="piece">
+            <img src="./9.jpg" alt="" class="piece">
+        </div>
+    </div>
+    <button id="btn">点击</button>
+    <script>
+        var _btn = document.querySelector('#btn');
+        var _rq = document.querySelector('.demo1');
+        var _rt = 40;
+        _btn.addEventListener('click',function(){
+           _rq.style.transform = 'rotateY('+ _rt + 'deg)';
+           _rt += 40;
+        })
+    </script>
+</body>
+</html>

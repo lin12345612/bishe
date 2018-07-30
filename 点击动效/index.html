@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>点击特效</title>
+    <style>
+        body{
+            background: #333;
+        }
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .demo{
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            background: red;
+            margin: 100px auto;
+            position: relative;
+            cursor: pointer;
+        }
+        .demo em{
+            display: block;
+            background: black;
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .demo1{
+            width:120px;
+            height: 120px;
+            background: green;
+            margin: 50px auto;
+            cursor: pointer;
+        }
+        .demo2{
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: yellow;
+        }
+        .clickEffect{
+            animation: goLarge 0.8s both;
+        }
+        @keyframes goLarge {
+            0%{
+                transform: scale(1);
+                opacity: 1;
+            }
+            100%{
+                transform: scale(1.5);
+                opacity: 0;
+            
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <!-- <i></i> -->
+    </div>
+    <div class="demo">
+        <em></em>
+    </div>
+    <div class="demo1"></div>
+    <div class="demo"></div>
+    <div class="demo2"></div>
+    <script src="./jquery-1.12.3.min.js"></script>
+    <script src="./ceffect.js"></script>
+    <script>
+        $(document).ready(function(){
+            // $('.demo').on('click',function(){
+            //     console.log(66);
+            // })
+            $('.demo').each(function(){
+                $(this).on('click',function(){
+                console.log(66);
+                // new cEffect({el:'.demo'});
+            })
+            });
+            var hah =    new cEffect({
+                    el:'.demo1',
+                    color : 'red'
+                
+                });
+            var heh =    new cEffect({
+                el:'.demo'
+            });
+
+            new cEffect({
+                el : '.demo2'
+            })
+                
+        })
+    </script>
+</body>
+</html>

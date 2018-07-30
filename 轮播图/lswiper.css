@@ -1,0 +1,39 @@
+*{
+    margin:0;
+    padding:0;
+}
+.lswiper-wrapper{
+    width: 300%;
+    min-height: 100px;
+    position: absolute;
+}
+.lswiper-slider{
+    width: 33.3%;
+    min-height: 80px;
+    background: lightblue;
+    float: left;
+}
+
+/* 分页器按钮 */
+.lswiper-circle-div{
+    height: 8px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.lswiper-circle-ul{
+    height: 100%;
+}
+.lswiper-circle-ul li{
+    width: 10px;
+    height: 10px;
+    background: rgb(254, 254, 254);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+}
+li.lswiper-li-chose{
+    background: #04dcf6;
+}

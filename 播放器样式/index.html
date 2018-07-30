@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义视频样式</title>
+    <!-- <link rel="stylesheet" href="./css/normalize.min.css"> -->
+    <!-- <link rel="stylesheet" href="./css/myvideo.css"> -->
+    <link rel="stylesheet" href="./css/video.min.css">
+    <style>
+        .demo{
+            width: 600px;
+            height: 300px;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <div>
+           <video id="myvideo"></video> 
+        </div>
+    </div>
+    <script src="./js/video.min.js"></script>
+    <script>
+        var myVideo = new myVideo({
+            el : '#myvideo',
+            src : './five.mp4',
+            // autoPlay : true
+            // hidden : false,
+            bgColor : 'red'
+        });
+    </script>
+</body>
+</html>

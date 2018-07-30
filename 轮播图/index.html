@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播图</title>
+    <link rel="stylesheet" href="./lswiper.css">
+    <script src="./jquery-1.8.3.min.js"></script>
+    <style>
+        body{
+            background: #f3f3f3;
+        }
+        .demo{
+            width: 200px;
+            height: 200px;
+            /*position: relative;*/
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <div class="lswiper-wrapper" id="lswiper_wrapper"> 
+            <div class="lswiper-slider">1</div>
+            <div class="lswiper-slider">2</div>
+            <div class="lswiper-slider">3</div>
+        </div>
+    </div>
+    <script src="./lswiper.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var mySwiper = new lSwiper('#lswiper_wrapper');
+        })
+    </script>
+</body>
+</html>
