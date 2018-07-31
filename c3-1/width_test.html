@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;padding: 0;
+            box-sizing: border-box;
+        }
+        .demo{
+            width: 100px;
+            height: 100px;
+            background: green;
+            color: #fff;
+            margin: 10px 30px;
+        }
+        .example{
+            width: fill-available;
+            height: 30px;
+            background: red;
+        }
+        .demo1{
+            width: 100px;
+            height: 100px;
+            background: black;
+            color: #fff;
+            margin: 10px 20px;
+        }
+    .example1{
+        width: max-content;
+        height: 30px;
+        background: yellow;
+        color: #000;
+    }
+    .demo2{
+        width: 100px;
+        height: 100px;
+        background: blue;
+        color: #fff;
+        margin: 10px;
+    }
+    .example2{
+        width: min-content;
+        height: 20px;
+        background: violet;
+        
+    }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <div class="example"></div>
+        我是fill-available,最大值
+    </div>
+    <div class="demo1">
+        <div class="example1">的方法</div>
+        我是max-content，靠内容撑开盒子
+    </div>
+    <div class="demo2">
+        <div class="example2"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>加载</title>
+    <style>
+        body{
+            background: #ddd;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .demo{
+            width: 30px;
+            height: 30px;
+            /* background: #fff; */
+            border-radius: 50%;
+            margin: 100px auto;
+            position: relative;
+            animation: goCircle 1s infinite steps(5,end);
+        }
+        @keyframes goCircle {
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+        .demo span{
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+        }
+        .one{
+            top: -10px;
+            left: 10px;
+            background: #2b5bca;
+        }
+        .two{
+            top: -6px;
+            left: -2px;
+            background: #6f78ec;
+        }
+        .three{
+            top: 5px;
+            left: -9px;
+            background: #9097f2;
+        }
+        .four{
+            top: 18px;
+            left: -8px;
+            background: #b0b4f1;
+        }
+        .five{
+            top: 28px;
+            left: 1px;
+            background: #cccff3;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <span class="one"></span>
+        <span class="two"></span>
+        <span class="three"></span>
+        <span class="four"></span>
+        <span class="five"></span>
+    </div>
+</body>
+</html>
