@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./jquery-1.8.3.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .clear{
+            clear: both;
+        }
+        .demo{
+            margin: 100px auto;
+            width: 620px;
+            height: 300px;
+            border: 1px solid black;
+            position: relative;
+        }
+        .menu{
+            width: 60px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            background: lightblue;
+            color: #333;
+            float: left;
+            margin:5px;
+        }
+        .onclick{
+            position: absolute;
+        }
+        .xude {
+            width: 60px;
+            height: 22px;
+            background: #fff;
+            border: 1px dashed lightblue;
+            float: left;
+            margin:5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <div class="menu" draggable="true">我</div>
+        <div class="menu" draggable="true">就是</div>
+        <div class="menu" draggable="true">哈哈</div>
+        <div class="menu" draggable="true">四</div>
+        <div class="menu" draggable="true">啥一</div>
+        <div class="menu" draggable="true">我与</div>
+        <div class="menu" draggable="true">雨水</div>
+        <div class="menu" draggable="true">四一</div>
+        <div class="menu" draggable="true">一期</div>
+        <div class="menu" draggable="true">反二</div>
+        <div class="menu" draggable="true">三父</div>
+        <div class="menu" draggable="true">四二</div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            var _Parwidth = 0 ,_twidth = 0,_num = 0,_pHeight = 0;   //存储父盒子宽度用于判断以及本身宽度以及每行个数,每行高度
+            var _flag = true;
+            var _curDiv = '';//存储当前点击的元素
+            var _middleDiv = ''; // 存储临时生成的DIV
+            var _dx = 0 , _dy = 0; //存储点击点和中心点的差值
+            $('body').on('dragstart','.menu',function(e){
+                var _left = 0, _top = 0;
+                var _ox = 0,_oy = 0 ;  //存储本元素的中心点的位置 
+                var dt = e.originalEvent.dataTransfer;
+                dt.setData('Text',e.target.innerHTML);
+
+                _curDiv = $(this);
+                var _child = '<div class="menu" draggable = true></div>';
+                _middleDiv = $(_child);
+                if(_flag){
+                    _Parwidth = $(this).parent().width();
+                    _twidth = $(this).width()+10;
+                    _num = Math.floor(_Parwidth / _twidth);    //每行个数
+                    _pHeight = $('.menu:eq('+ _num +')')[0].offsetTop;
+                    _flag = false;
+                }
+                _ox = this.offsetLeft + $(this).width()/2;
+                _oy = this.offsetTop + $(this).height()/2;
+                _dx = e.originalEvent.pageX - $(this).parent()[0].offsetLeft - _ox;
+                _dy = e.originalEvent.pageY - $(this).parent()[0].offsetTop - _oy;
+                _top = e.target.offsetTop - 5;
+                _left = e.target.offsetLeft - 5;
+                $(this).addClass('onclick').css({
+                    'left' : _left + 'px',
+                    'top'  : _top + 'px'
+                })
+                $(this).after(_child);
+            }).
+            on('dragover','.demo',function(e){
+                e.preventDefault();
+            }).
+            on('drop','.demo',function(e){
+                e.preventDefault();
+                var data = e.originalEvent.dataTransfer.getData('Text');
+                var _x = e.originalEvent.pageX - this.offsetLeft - _dx;
+                var _y = e.originalEvent.pageY - this.offsetTop - _dy;
+                var _lnum = Math.floor(_x / _twidth);  //前面的个数
+                var _tnum = Math.floor(_y/_pHeight);   //第几排
+                var _totalNum = _lnum + _tnum * _num ;  //总的个数
+                _middleDiv.text(data);
+                if(_totalNum >= $('.menu').length-1){
+                    $(this).append(_middleDiv);
+                }else{
+                    $('.menu:eq('+ (_totalNum+1) +')').before(_middleDiv);
+                }
+                _curDiv.next().remove();
+                _curDiv.remove();
+            });
+        });
+    </script>
+</body>
+</html>

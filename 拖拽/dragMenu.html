@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>菜单拉动</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .clear{
+            clear: both;
+        }
+        .demo{
+            margin: 100px auto;
+            width: 620px;
+            height: 300px;
+            border: 1px solid black;
+            position: relative;
+        }
+        .menu{
+            width: 60px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            background: lightblue;
+            color: #333;
+            float: left;
+            margin:5px;
+        }
+        .onclick{
+            position: absolute;
+        }
+        .xude {
+            width: 60px;
+            height: 22px;
+            background: #fff;
+            border: 1px dashed lightblue;
+            float: left;
+            margin:5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <div class="menu" draggable="true">我</div>
+        <div class="menu" draggable="true">就是</div>
+        <div class="menu" draggable="true">哈哈</div>
+        <div class="menu" draggable="true">四</div>
+        <div class="menu" draggable="true">啥一</div>
+        <div class="menu" draggable="true">我与</div>
+        <div class="menu" draggable="true">雨水</div>
+        <div class="menu" draggable="true">四一</div>
+        <div class="menu" draggable="true">一期</div>
+        <div class="menu" draggable="true">反二</div>
+        <div class="menu" draggable="true">三父</div>
+        <div class="menu" draggable="true">四二</div>
+    </div>
+    <script>
+        var divs = document.querySelectorAll('.menu');
+        var demo = document.querySelector('.demo');
+        var _children = '';
+        var _tempDiv = '',finDiv = '' ;   //顶替位置的div以及最后删除的div
+        var _left = 0,_top = 0;
+        var _Parwidth = 0 ,_twidth = 0,_num = 0,_pHeight = 0;   //存储父盒子宽度用于判断以及本身宽度以及每行个数,每行高度
+        var _flag = true;  
+        var _sx = 0 ,_sy = 0 ;
+        var i = 0;
+        divs = [...divs];
+        
+        for(var r = 0 ; r < divs.length ; r++){
+            divs[r].addEventListener('dragstart',function(e){
+                _sx = e.pageX;
+                _sy = e.pageY;
+
+                var _ichildren = document.querySelector('.demo').children;
+                _children = _ichildren;
+                //第一次拖动时获取父盒子的宽度以及本身宽度
+                if(_flag){
+                    _Parwidth = this.parentNode.offsetWidth;
+                    _twidth = this.offsetWidth+10;
+                    _num = Math.floor(_Parwidth / (_twidth+10));
+                    _pHeight = _children[_num + 1].offsetTop;
+                    _flag = false;
+                }
+                finDiv = this;
+                
+                //一点击，先创建一个div
+                var child = document.createElement('div');
+                child.className="menu";
+                child.draggable = true;
+                _tempDiv = child;
+                var dt = e.dataTransfer;
+                dt.setData('Text',e.target.innerHTML);
+
+                // 将所要拖拽的元素置为绝对定位
+                _top = e.target.offsetTop - 5;
+                _left = e.target.offsetLeft - 5;
+                this.className += ' onclick';
+                this.style.left = _left + 'px';
+                this.style.top = _top + 'px';
+                console.log(child);
+                demo.insertBefore(child,this);
+            });
+        }
+        demo.addEventListener('dragover',function(e){
+            e.preventDefault();
+        }) ;
+        demo.addEventListener('drop',function(e){
+            e.preventDefault();
+            this.removeChild(_tempDiv);
+            // console.log();
+            var _newChild = document.createElement('div');
+            _newChild.className="menu";
+            _newChild.draggable = true;
+            
+            var data = e.dataTransfer.getData('Text');
+            var _x = e.pageX - this.offsetLeft;
+            var _y = e.pageY - this.offsetTop;
+            var _lnum = Math.floor(_x / _twidth);  //获取前面的个数
+            var _cnum = Math.floor(_y /_pHeight );  //当前是第几行
+            var _curNum = (_lnum + _cnum * _num) ;
+            _newChild.innerHTML = data ; 
+            if(_curNum >= _children.length-1){
+                this.appendChild(_newChild);
+            }else {
+                // if()   //判断是否在同一行
+                console.log(_newChild);
+                console.log(_children[_curNum]);
+                this.insertBefore(_newChild,_children[_curNum]);
+            }
+            this.removeChild(finDiv);
+            // _tempDiv = '';
+            // finDiv = '' ;
+        })
+
+    </script>
+</body>
+</html>
