@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态省略号</title>
+    <style>
+        .loading:after {
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            animation: ellipsis 2s infinite;
+            content: "\2026"; /* ascii code for the ellipsis character */
+        }
+        @keyframes ellipsis {    
+            from {
+                width: 2px;
+            }
+            to {
+                width: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading"></div>
+</body>
+</html>

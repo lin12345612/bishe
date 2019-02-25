@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .anim_image{
+            -webkit-transition: all 1s ease-in-out;
+            -moz-transition: all 1s ease-in-out;
+            -o-transition: all 1s ease-in-out;
+            transition: all 1s ease-in-out;
+            cursor:pointer;
+        }
+        .anim_image_top{
+            position: absolute;
+            transform: scale(0, 0);
+            opacity: 0;
+            filter: Alpha(opacity=0);
+        }
+        .anim_box:hover .anim_image_top{
+            opacity: 1;
+            filter: Alpha(opacity=100);
+            transform: scale(1, 1);
+            transform-origin: top right;        
+        }
+        .anim_box:hover .anim_image_bottom {
+            transform: scale(0, 0);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body>
+    <div id="testBox" class="demo anim_box">
+        <img class="anim_image anim_image_top" src="./1.jpg" />
+        <img class="anim_image anim_image_bottom" src="./2.jpg" />
+    </div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style> 
+        .demo{
+            width: 900px;
+            height: 521px;
+            margin: 10px auto;
+            background: url(./bg.png) no-repeat center center;
+            position: relative;
+        }
+        .cz{
+            display: block;
+            width: 10px;
+            height: 190px;
+            position: absolute;
+            left: 436px;
+            bottom: 118px;
+            overflow-y: hidden;
+        }
+        /* 底部动画 */
+        .cz-em{
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 10px solid red;
+            position: absolute;
+            bottom: 0;
+            left: 0px;
+            animation: gotop 6s linear infinite;
+        }
+        @keyframes gotop {
+            0%{
+                bottom: 0;
+            }
+            100%{
+                bottom: 360px;
+            }
+        }
+        /* 左侧动画 */
+        .zc{
+            width:270px;
+            height:10px;
+            position: absolute;
+            top: 50%;
+            margin-top:-53px;
+            left: 172px;
+            overflow: hidden;
+        }
+        .zc-em{
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom : 5px solid transparent;
+            border-right : 10px solid red;
+            position: absolute;
+            top: 0;
+            right: -290px;
+            animation: goleft 6s linear infinite ;
+        }
+        @keyframes goleft {
+            0%{
+                display : block;
+            }
+            100%{
+                right: 260px;
+                /* display: none; */
+            }
+        }
+        /* 右侧动画 */
+        .yc{
+            width:270px;
+            height:10px;
+            position: absolute;
+            top: 50%;
+            margin-top:-53px;
+            left: 442px;
+            overflow: hidden;
+        }
+        .yc-em{
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid red;
+            position: absolute;
+            top: 0;
+            left: -280px;
+            animation: goright 6s linear infinite;
+        }
+        @keyframes goright {
+            0%{
+
+            }
+            100%{
+                left: 270px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <!-- 中间部分 -->
+        <span class="cz"><em class="cz-em"></em></span>
+        <!-- 左侧 -->
+        <span class="zc"><em class="zc-em"></em></span>
+        <!-- 右侧 -->
+        <span class="yc"><em class="yc-em"></em></span>
+    </div>
+</body>
+</html>

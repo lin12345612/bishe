@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态进度条</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .demo{
+            width: 300px;
+            height: 20px;
+            margin: 100px auto;
+            background: yellow;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .demo1{
+            width: 300px;
+            height: 20px;
+            background: linear-gradient(135deg,lightcoral 25%,transparent 25% , transparent 50%,lightcoral 50%,lightcoral 75%, transparent 75%,transparent);
+            background-size: 40px 40px;
+            animation: togo .6s linear infinite; 
+        }
+        @keyframes togo {
+            from{
+                background-position: 40px 0; 
+            }
+            to{
+                background-position: 0 0 ;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="demo">
+        <div class="demo1"></div>
+    </div>
+    
+</body>
+</html>
