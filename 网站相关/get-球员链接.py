@@ -21,7 +21,7 @@ def getLink(sel):
         return None
 arr = getLink(sel)
 df = pd.DataFrame(arr)
-df.to_csv('link.csv',encoding='gbk',index=False)
+df.to_csv('球员链接.csv',encoding='gbk',index=False)
 print('我执行完了')
 # http://www.stat-nba.com/team/MIA.html
 # 

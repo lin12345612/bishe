@@ -33,7 +33,7 @@ for i in range(length):
     newArr.append([row[i] for row in arr])
 df=pd.DataFrame(newArr)
 df.columns=['球员','球队','得分','篮板','抢断','助攻','盖帽','号码']
-df.to_csv('user.csv',encoding='gbk',index=False)
+df.to_csv('全队球员情况.csv',encoding='gbk',index=False)
 print('我执行好了')
 '''
 df=pd.DataFrame(get_text_link_from_sel(sel))

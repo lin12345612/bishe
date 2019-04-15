@@ -69,7 +69,7 @@ def getAllTeamData(url):
     print('执行好了')
 
     df=pd.DataFrame(newArr)
-    df.to_csv('playerData.csv',encoding='gbk',index=False,mode='a',header=False)
+    df.to_csv('球员生涯.csv',encoding='gbk',index=False,mode='a',header=False)
 
 for item in urlArr:
     getAllTeamData(item)
