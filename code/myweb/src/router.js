@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/home.vue";
+import Range from "./views/trange/range.vue";
 
 Vue.use(Router);
 
@@ -9,22 +9,37 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path : '/',
-      redirect : '/pc'
+      path: "/pc",
+      name: "range",
+      component: Range
     },
     {
-      path: "/pc",
-      name: "home",
-      component: Home
+      path: "/pc/teamInfor",
+      name: "teamInfor",
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/teamInfor/tinfor.vue")
     },
-    // {
-    //   path: "/about",
-    //   name: "about",
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ "./views/About.vue")
-    // }
+    {
+      path : '/pc/dataRange',
+      name : 'dataRange',
+      component:()=>
+        import("./views/dataRange/dataRange.vue")
+    },
+    {
+      path : '/pc/playerInfor',
+      name : 'playerInfor',
+      component:()=>
+        import("./views/playerInfor/player.vue")
+    },
+    ,
+    {
+      path : '/pc/scheme',
+      name : 'scheme',
+      component:()=>
+        import("./views/scheme/sheme.vue")
+    }
   ]
 });

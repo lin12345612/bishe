@@ -1,6 +1,6 @@
 module.exports = {
     //获取东西部排名
-    getTeamRank : 'SELECT tName, wNum,fNum,rate,states FROM teaminfor WHERE wNum != "" AND part="西部" ORDER BY rate DESC;SELECT tName, wNum,fNum,rate,states FROM teaminfor WHERE wNum != "" AND part="东部" ORDER BY rate DESC',
+    getTeamRank : 'SELECT tName, wNum,fNum,rate,states FROM teaminfor WHERE wNum != "" AND part="西部" ORDER BY ranks ASC;SELECT tName, wNum,fNum,rate,states FROM teaminfor WHERE wNum != "" AND part="东部" ORDER BY ranks ASC',
     // 一开始加载球员各项数据
     getPlayerData : 
     `
@@ -21,6 +21,9 @@ module.exports = {
         SELECT  preteam,season,cpoint,creb,cassist,csteal,cblock,avedata FROM playerinfor WHERE player="${player}" AND tName="${team}" AND preteam IS NOT NULL;
         SELECT honor FROM playerinfor WHERE player="${player}" AND tName="${team}" AND honor IS NOT NULL;
         `
-    }
+    },
+    // 
+    getTeamInfor:
+    'SELECT logoSrc FROM teaminfor WHERE logoSrc IS NOT NULL AND tName=?;SELECT wNum,fNum,states,tDes,coach,groupName,ranks,part FROM teaminfor WHERE wNum IS NOT NULL AND tName=?;SELECT player,number,imgSrc FROM teaminfor WHERE tName=?;'
 
 }

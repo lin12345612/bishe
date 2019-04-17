@@ -27,5 +27,10 @@ router.post('/api/getPlayerInfor',(req,res,next)=>{
   api.getPlayerInfor(req,res,next);
 })
 
+// 获取球队信息
+router.post('/api/getTeamInfor',(req,res,next) =>{
+  api.getTeamInfor(req,res,next)
+})
+
 
 module.exports = router;

@@ -1,8 +1,8 @@
 <template>
     <div class="my-con"> 
         <middle-con></middle-con>
-        <side-con :posi="pl" :flag=0 ></side-con>
-        <side-con :posi="pr" :flag=1></side-con>
+        <side-con :posi="pr" :flag=0 ></side-con>
+        <side-con :posi="pl" :flag=1></side-con>
     </div>
 </template>
 <script>

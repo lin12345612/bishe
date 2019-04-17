@@ -8,3 +8,12 @@ export function getTeamRank(){
         method:'get'
     })
 }
+
+// 获取球队信息
+export function getTeamInfor(team){
+    return request({
+        url : '/api/getTeamInfor',
+        method:'post',
+        params:{team:team}
+    })
+}

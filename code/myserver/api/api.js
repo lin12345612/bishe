@@ -62,8 +62,8 @@ module.exports = {
             }
             var msg = '查询成功'
             var _res = {};
-            var _item = req.body.item;
-            var _offset =req.body.offset;
+            var _item = req.query.item;
+            var _offset =req.query.offset;
             var sql = sqlMap.getSingleDataPage(_item,_offset);
             connection.query(sql,(err,result) =>{
                if(err){
@@ -85,10 +85,9 @@ module.exports = {
             }
             var msg = '查询成功';
             var _res = {};
-            var _player = req.body.player;
-            var _team = req.body.team;
+            var _player = req.query.player;
+            var _team = req.query.team;
             var sql = sqlMap.getplayerCareer(_player,_team)
-            console.log(sql);
             connection.query(sql,(err,result) =>{
                 if(err){
                    console.log('数据传输出错了');
@@ -101,11 +100,36 @@ module.exports = {
             }) 
         })
     },
-    // 返回球队logo
-    getTeamLogo(req,res){
-        // console.log(__filename);
-        var mypath = path.parse(__dirname).dir;
-        // var myPath = str.dir
-        res.sendFile(mypath+'/public/img/logo/76ers.png')
+    // 返回球队信息
+    getTeamInfor(req,res,next){
+        pool.getConnection((err,connection) => {
+            if(err){
+              return '连接出错';
+            }
+            var msg = '查询成功';
+            var _res = {};
+            var _team = req.query.team;
+            var sql = sqlMap.getTeamInfor;
+            connection.query(sql,[_team,_team,_team],(err,result) =>{
+                if(err){
+                   console.log('数据传输出错了');
+                   return;
+                }
+               _res.msg = msg;
+            //    var arr1 = result[2];
+            //    var arr2 = [];
+            //    var str = null;
+            //    var _length = arr1.length;
+            //    for (let g = 0; g < _length; g++) {
+            //         str = JSON.stringify(arr1[g]);
+            //         str = JSON.parse(str).player;
+            //         arr2.push(str)
+            //    }
+            //    result[2] = arr2;
+               _res.info=result;
+               res.json(_res);
+               connection.release();
+            }) 
+        })
     }
 }

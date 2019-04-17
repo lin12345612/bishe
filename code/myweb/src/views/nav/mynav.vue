@@ -3,16 +3,22 @@
         <div class="nav-cover-div"></div>
         <div class="nav-cover">
             <el-menu 
-                default-active='0'
                 class="el-menu-demo" 
                 mode="horizontal" 
-                @select="handleSelect"
+                @select="handleSelect"  
                 text-color = "#fff"
                 active-text-color="#F9DC50"
                 background-color="#e6582a"
                 >
-                <el-menu-item v-for="(item,index) in navArr" :index="index+''" :key="index" class="my-nav-item">
-                    {{item.val}}
+                <el-menu-item  
+                    v-for="(item,index) in $store.state.menuArr" 
+                    :index="index+''" 
+                    :key="index" 
+                    class="my-nav-item"
+                    :class="setClass(index)"
+                    >
+                        <i :class="item.cn"></i>
+                        {{item.val}}
                 </el-menu-item>
             </el-menu>
         </div>
@@ -23,37 +29,49 @@ export default {
     name : 'my-nav',
     data(){
         return {
-            navArr : [
-                {
-                    val : '球队情况',
-                    path : ''
-                },
-                {
-                    val : '球员数据',
-                    path : ''
-                },
-                {
-                    val : '新闻专区',
-                    path : ''
-
-                },
-                {
-                    val : '赛程',
-                    path : ''
-                }
-            ],
-            // activeIndex:'0'
+            navArr : [],
         }
     },
+    created() {
+        this.navArr = this.$store.state.menuArr
+    },
     methods: {
+        // 菜单栏点击事件
         handleSelect(key,keypath){
-            console.log(key);
-            console.log(keypath);
+            // console.log(key);
+            this.$store.dispatch('actChangeMf',key);
+            this.$router.push({name:this.navArr[key].path})
+            console.log(this.navArr[key].path);
+            if(key == 1){
+                this.$store.dispatch('actChangeTf',true)
+            }
+        },
+        // 设置样式
+        setClass(ind){
+            if(this.$store.state.mf == ind ){
+                return 'nav-active'
+            }else{
+                return 'nav-iactive'
+            }
         }
     },
 }
 </script>
 <style lang="scss" scope>
+    .nav-active{
+        color: rgb(249, 220, 80) !important;
+        border-bottom-color: rgb(249, 220, 80)!important;
+        i{
+            color:rgb(249, 220, 80) !important;
+        }
+    }
+    .nav-iactive{
+        color: rgb(255, 255, 255) !important;
+        border-bottom-color: transparent !important;
+        i{
+            color: rgb(255, 255, 255) !important;
+        }
+    }
     .my-nav{
         height: 50px;
         position: relative;
@@ -110,7 +128,12 @@ export default {
         z-index: 99;
     }
     
-    .my-nav-item{
+    li.my-nav-item{
         font-size: 18px;
+        i{
+            color: #fff;
+            font-size:18px;
+            margin-right:5px;
+        }
     }
 </style>

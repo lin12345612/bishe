@@ -1,11 +1,12 @@
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1554627816963'); /* IE9 */
-  src: url('iconfont.woff?t=1554627816963') format('woff'),
-  url('iconfont.ttf?t=1554627816963') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('iconfont.svg?t=1554627816963#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1555341206955'); /* IE9 */
+  src: url('iconfont.eot?t=1555341206955#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1555341206955') format('woff'),
+  url('iconfont.ttf?t=1555341206955') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1555341206955#iconfont') format('svg'); /* iOS 4.1- */
 }
 
-[class^= "icon-"] {
+[class^="myweb-icon-"] {
   font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
@@ -13,91 +14,103 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-team:before {
+.myweb-icon-team:before {
   content: "\e600";
 }
 
-.icon-scheme:before {
+.myweb-icon-scheme:before {
   content: "\e605";
 }
 
-.icon-block:before {
+.myweb-icon-block:before {
   content: "\e602";
 }
 
-.icon-data:before {
+.myweb-icon-data:before {
   content: "\e641";
 }
 
-.icon-result:before {
+.myweb-icon-result:before {
   content: "\e850";
 }
 
-.icon-first:before {
+.myweb-icon-first:before {
   content: "\e626";
 }
 
-.icon-third:before {
+.myweb-icon-third:before {
   content: "\e627";
 }
 
-.icon-lanban:before {
+.myweb-icon-lanban:before {
   content: "\e663";
 }
 
-.icon-qiangduan:before {
+.myweb-icon-qiangduan:before {
   content: "\e666";
 }
 
-.icon-zhugong:before {
+.myweb-icon-zhugong:before {
   content: "\e60f";
 }
 
-.icon-xinwen:before {
+.myweb-icon-xinwen:before {
   content: "\e629";
 }
 
-.icon-touxiang:before {
+.myweb-icon-qy:before {
   content: "\e642";
 }
 
-.icon-point:before {
+.myweb-icon-point:before {
   content: "\e6d2";
 }
 
-.icon-fourth:before {
+.myweb-icon-ranks:before {
+  content: "\e603";
+}
+
+.myweb-icon-fourth:before {
   content: "\e619";
 }
 
-.icon-fifth:before {
+.myweb-icon-fifth:before {
   content: "\e61a";
 }
 
-.icon-sixth:before {
+.myweb-icon-sixth:before {
   content: "\e61b";
 }
 
-.icon-eighth:before {
+.myweb-icon-eighth:before {
   content: "\e61d";
 }
 
-.icon-ninth:before {
+.myweb-icon-ninth:before {
   content: "\e61e";
 }
 
-.icon-tenth:before {
+.myweb-icon-tenth:before {
   content: "\e61f";
 }
 
-.icon-second:before {
+.myweb-icon-youjian:before {
+  content: "\e77c";
+}
+
+.myweb-icon-zuojian:before {
+  content: "\e780";
+}
+
+.myweb-icon-second:before {
   content: "\e60c";
 }
 
-.icon-seventh:before {
+.myweb-icon-seventh:before {
   content: "\e601";
 }
 
-.icon-qiuyuan:before {
+.myweb-icon-center:before {
   content: "\e76e";
 }
 
