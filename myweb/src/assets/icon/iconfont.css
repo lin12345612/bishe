@@ -1,0 +1,117 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1556464248350'); /* IE9 */
+  src: url('iconfont.eot?t=1556464248350#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1556464248350') format('woff'),
+  url('iconfont.ttf?t=1556464248350') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1556464248350#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+[class^="myweb-icon-"] {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.myweb-icon-back:before {
+  content: "\e63f";
+}
+.myweb-icon-team:before {
+  content: "\e600";
+}
+
+.myweb-icon-first:before {
+  content: "\e61c";
+}
+
+.myweb-icon-third:before {
+  content: "\e620";
+}
+
+.myweb-icon-scheme:before {
+  content: "\e605";
+}
+
+.myweb-icon-second:before {
+  content: "\e617";
+}
+
+.myweb-icon-block:before {
+  content: "\e602";
+}
+
+.myweb-icon-data:before {
+  content: "\e641";
+}
+
+.myweb-icon-youjian:before {
+  content: "\e606";
+}
+
+.myweb-icon-result:before {
+  content: "\e850";
+}
+
+.myweb-icon-lanban:before {
+  content: "\e663";
+}
+
+.myweb-icon-qiangduan:before {
+  content: "\e666";
+}
+
+.myweb-icon-zhugong:before {
+  content: "\e60f";
+}
+
+.myweb-icon-xinwen:before {
+  content: "\e629";
+}
+
+.myweb-icon-qy:before {
+  content: "\e642";
+}
+
+.myweb-icon-point:before {
+  content: "\e6d2";
+}
+
+.myweb-icon-ranks:before {
+  content: "\e603";
+}
+
+.myweb-icon-fourth:before {
+  content: "\e619";
+}
+
+.myweb-icon-fifth:before {
+  content: "\e61a";
+}
+
+.myweb-icon-sixth:before {
+  content: "\e61b";
+}
+
+.myweb-icon-eighth:before {
+  content: "\e61d";
+}
+
+.myweb-icon-ninth:before {
+  content: "\e61e";
+}
+
+.myweb-icon-tenth:before {
+  content: "\e61f";
+}
+
+.myweb-icon-seventh:before {
+  content: "\e601";
+}
+
+.myweb-icon-zuojian:before {
+  content: "\e653";
+}
+
+.myweb-icon-center:before {
+  content: "\e76e";
+}
