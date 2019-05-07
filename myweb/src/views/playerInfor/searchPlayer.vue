@@ -5,6 +5,7 @@
                 placeholder="请输入球员姓名"
                 v-model="qy"
                 clearable
+                @keyup.enter.native="serachName"
             >
             <el-button slot="append" icon="el-icon-search" @click="serachName"></el-button>
             </el-input>

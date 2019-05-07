@@ -10,7 +10,7 @@ import {
   Main,Tabs,MenuItem,
   Header,Menu,Submenu,
   Table,TableColumn,Select,
-  Option,OptionGroup,Dialog,Input,Button
+  Option,OptionGroup,Dialog,Input,DatePicker,Button,FormItem,Form
 } from 'element-ui';
 
 import store from './store/store'
@@ -29,6 +29,9 @@ Vue.use(OptionGroup)
 Vue.use(Dialog)
 Vue.use(Input)
 Vue.use(Button)
+Vue.use(DatePicker);
+Vue.use(FormItem)
+Vue.use(Form)
 
 Vue.config.productionTip = false;
 // router.onError(error=>{

@@ -5,7 +5,7 @@
             :visible="flag2"
             :before-close="handleClose"
             :title="pjTitle"
-            width="450px"
+            width="550px"
             custom-class="pop-dialog"
         >
             <el-table
@@ -13,32 +13,33 @@
                 style="width: 100%">
                 <el-table-column
                     label="排名"
-                    width="70">
+                    width="100">
                 <template slot-scope="scope">
                     {{scope.$index+1+offset}}
                 </template>    
                 </el-table-column>
                 <el-table-column
                     label="球员"
-                    width="180">
+                    width="200">
                     <template slot-scope="scope">
-                        <a href="javascript:;" class="pop-player-a">{{scope.row.player}}</a>
+                        <a href="javascript:;" class="pop-player-a" @click="linkQy(scope.row.player,scope.row.tName)">{{scope.row.player}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column
                     prop="tName"
                     label="球队"
-                    width="80">
+                    width="100">
                 </el-table-column>
                 <el-table-column
                     :prop="xmtitle"
                     label="数据"
-                    width="70">
+                    width="100">
                 </el-table-column>
             </el-table>  
             <div class="btn-div">
                 <button class="data-common-btn" @click="getFirst">首页</button>
                 <button class="data-common-btn prex-btn" @click="getPrev">上一页</button>
+                <p class="show-curr-page">第{{currPage}}页</p>
                 <button class="data-common-btn next-btn" @click="getNext">下一页</button>
                 <div class="page-input-div">
                     <input type="text" class="page-input" v-model="pageNum">
@@ -62,6 +63,7 @@ export default {
             xmArr : [],
             offset : 0,
             pageNum:'',
+            currPage : 1, //显示当前的页数
             done : false   //用于判断数据是否为空
         }
     },
@@ -105,12 +107,14 @@ export default {
                     }else{
                         this.xmArr = _arr;
                         this.offset = py;
+                        this.currPage = (this.offset/10)+1;
                         this.pageNum = '';
                     }
                 }else{
                     this.done = false
                     this.xmArr = _arr;
                     this.offset = py;
+                    this.currPage = (this.offset/10)+1;
                     this.pageNum = '';
                 }
             })
@@ -168,6 +172,18 @@ export default {
             }else{
                 myMessage('请输入数字页码')
             }
+        },
+        // 球员跳转
+        linkQy(_qy,_qd){
+           var xx = {
+               xm : _qy,
+               qd : _qd 
+           } 
+            this.$store.dispatch('actChangeMf',3); //修改导航栏
+            this.$store.dispatch('actChangePf',false); //修改进入球员界面
+            this.$store.dispatch('actSetQyxx',xx); // 传递球员信息
+            this.handleClose();
+            this.$router.push({name:'playerInfor'});//路由跳转
         }
 
     }
@@ -199,6 +215,10 @@ export default {
             border:none;
             background-color: #e9e9e9;
             color: #606266;
+            &:hover{
+                background-color: #f25a29;
+                color: #fff;
+            }
         }
         .prex-btn{
             margin-left: 15px;
@@ -218,6 +238,9 @@ export default {
             height: 30px;
             border: 1px solid #dcdcdc;
             border-radius: 3px 0 0 3px ;
+            &:focus{
+                // border:1px solid  #f25a29;
+            }
         }
         .jump-p{
             position: absolute;
@@ -230,6 +253,10 @@ export default {
             width: 40px;
             text-align: center;
             cursor: pointer;
+            &:hover{
+                background-color: #f25a29;
+                color: #fff;
+            }
         }
     }
     .pop-player-a{
@@ -237,5 +264,11 @@ export default {
         &:hover{
             text-decoration: underline;
         }
+    }
+    .show-curr-page{
+        padding: 0 10px;
+        height: 30px;
+        line-height: 30px;
+        margin-left: 15px;
     }
 </style>

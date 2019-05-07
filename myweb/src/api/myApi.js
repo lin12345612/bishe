@@ -59,3 +59,14 @@ export function getPlayerInfor(qy){
         }
     })
 }
+
+// 获取比赛情况
+export function getScheme(date){
+    return request({
+        url : '/api/searchGame',
+        method:'post',
+        params:{
+            time:date
+        }
+    })
+}
