@@ -53,5 +53,7 @@ const state = {
     login : false,
     // 注册弹窗显示标志
     regiFlag : false,
+    // 修改密码弹窗显示标志
+    resetFlag : false
 }
 export default state;

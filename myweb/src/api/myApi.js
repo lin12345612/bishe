@@ -70,3 +70,36 @@ export function getScheme(date){
         }
     })
 }
+// 查看邮箱是否存在
+export function checkAccount(user){
+    return request({
+        url :'/api/checkAccount',
+        method : 'post',
+        params : {
+            user : user
+        }
+    })
+}
+// 点击发送验证码
+export function sendCode(user){
+    return request({
+        url : '/api/createCode',
+        method:'post',
+        params:{
+            user:user
+        }
+    })
+}
+
+// 发送账号密码验证码到后台
+export function checkCode(info){
+    return request({
+        url : '/api/checkCodeAndRegi',
+        method : 'post',
+        params:{
+            user : info.user,
+            psw : info.psw,
+            code : info.code
+        }
+    })
+}

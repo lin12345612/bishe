@@ -10,10 +10,12 @@ import {
   Main,Tabs,MenuItem,
   Header,Menu,Submenu,
   Table,TableColumn,Select,
-  Option,OptionGroup,Dialog,Input,DatePicker,Button,FormItem,Form
+  Option,OptionGroup,Dialog,Input,DatePicker,Button,FormItem,Form,Steps,Step
 } from 'element-ui';
 
 import store from './store/store'
+Vue.use(Steps);
+Vue.use(Step);
 Vue.use(Container);
 Vue.use(Main);
 Vue.use(Header);

@@ -84,3 +84,11 @@ export const actChangeRegiFlag =({commit},flag) =>{
         flag:flag
     })
 }
+
+// 修改密码标志位修改
+export const actChangeResetFlag = ({commit},flag)=>{
+    commit({
+        type : 'changeResetFlag',
+        flag :flag
+    })
+}

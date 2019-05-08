@@ -38,3 +38,6 @@ export const changeLogin = (state,flag) =>{
 export const changeRegiFlag = (state,flag) =>{
     state.regiFlag = flag.flag
 }
+export const changeResetFlag = (state,flag) =>{
+    state.resetFlag = flag.flag
+}

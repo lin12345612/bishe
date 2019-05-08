@@ -30,7 +30,7 @@
             </div>
             <p class="warm-p" v-if="warmShow">您输入的账号或者密码不正确</p>
             <div class="forget-psw-div"><p class="forget-psw-p" @click="handleSetPsw">忘记密码？</p></div>
-            <el-button class="login-btn">登录</el-button>
+            <button class="login-btn">登录</button>
             <div class="forget-psw-div register-div"><p class="register-p">还没有账号？<span @click="registerSpan" class="register-span">去注册</span></p></div>
         </el-dialog>
     </div>
@@ -55,10 +55,14 @@ export default {
 
         },
         handleSetPsw(){
-
+            this.$store.dispatch('actChangeResetFlag',true)
+            this.handleClose();
+            this.$store.dispatch('actChangeRegiFlag',false)
         },
         registerSpan(){
-
+            this.$store.dispatch('actChangeResetFlag',false)
+            this.handleClose();
+            this.$store.dispatch('actChangeRegiFlag',true)
         }
     }
 }
@@ -82,7 +86,11 @@ export default {
             width:300px;
             margin:10px auto 0;
             font-size: 16px;
-            
+             border:none;
+            border-radius: 3px;
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
             &:hover{
                 background:#f25a29;
                 color:#fff;
