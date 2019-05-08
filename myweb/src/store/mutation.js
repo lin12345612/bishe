@@ -21,3 +21,23 @@ export const changePf = (state,flag) =>{
 export const changeQy  = (state,xx) =>{
     state.qyxx = xx.qyxx
 }
+export const changeLg = (state,flag) =>{
+    state.lg = flag.lg
+}
+export const changeUser = (state,name) =>{
+    state.user = name.user
+}
+
+export const changeDlFlag = (state,flag) =>{
+    state.dlFlag = flag.flag;
+}
+
+export const changeLogin = (state,flag) =>{
+    state.login = flag.flag
+}
+export const changeRegiFlag = (state,flag) =>{
+    state.regiFlag = flag.flag
+}
+export const changeResetFlag = (state,flag) =>{
+    state.resetFlag = flag.flag
+}

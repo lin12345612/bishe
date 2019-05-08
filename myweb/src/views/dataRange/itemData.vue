@@ -17,7 +17,7 @@
                     >
                         <td class="ranks-td"><i :class="lmArr[index]"></i></td>
                         <td>
-                            <div class="td-cover-div">
+                            <div class="td-cover-div" @click="linkQy(item.player,item.tName)">
                                 <div class="img-div">
                                     <img :src="item.imgSrc" class="dr-img" v-if="flagArr[index]">
                                 </div>
@@ -80,8 +80,18 @@ export default {
     },
     methods:{
         showPop(){
-            this.$store.dispatch('actChangeDf',true)
-            this.$store.dispatch('actSetProject',this.$props.title)
+            this.$store.dispatch('actChangeDf',true); //显示数据弹窗
+            this.$store.dispatch('actSetProject',this.$props.title);//传递弹窗标题
+        },
+        linkQy(_qy,_qd){
+            var xx = {
+                xm : _qy,
+                qd : _qd
+            }
+            this.$store.dispatch('actChangeMf',3); //修改导航栏
+            this.$store.dispatch('actChangePf',false); //修改进入球员界面
+            this.$store.dispatch('actSetQyxx',xx); // 传递球员信息
+            this.$router.push({name:'playerInfor'});//路由跳转
         }
     },
     props:['title','sjData','sx']

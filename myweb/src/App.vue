@@ -9,6 +9,9 @@
         <my-con></my-con>
       </el-main>
       <data-pop v-if="$store.state.df"></data-pop>
+      <login v-if="$store.state.dlFlag"></login>
+      <register v-if="$store.state.regiFlag"></register>
+      <reset-pw v-if="$store.state.resetFlag"></reset-pw>
     </el-container>
   </div>
 </template>
@@ -17,9 +20,12 @@
   import myNav from '@/views/nav/mynav';
   import myCon from '@/views/content/mycon';
   import dataPop from '@/views/dataRange/data-pop.vue';
+  import Login from '@/views/login/login.vue';
+  import Register from '@/views/login/register.vue';
+  import ResetPw from '@/views/login/resetPw.vue';
   export default {
       name : 'app',
-      components:{myHead,myNav,myCon,dataPop}
+      components:{myHead,myNav,myCon,dataPop,Login,Register,ResetPw}
   }
 </script>
 <style lang="scss">
@@ -33,6 +39,9 @@
   }
   a{
     text-decoration: none;
+  }
+  button{
+    outline: none!important;
   }
   #app{
     position: absolute;

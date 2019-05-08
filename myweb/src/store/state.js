@@ -42,6 +42,18 @@ const state = {
     qyxx:{
         xm : '',
         qd : ''
-    }
+    },
+    // 改变登陆框的显示内容
+    lg : true ,
+    // 修改用户登录后的名称
+    user : '登录',
+    // 登陆弹窗标志
+    dlFlag : false,
+    // 用户是否登陆标志
+    login : false,
+    // 注册弹窗显示标志
+    regiFlag : false,
+    // 修改密码弹窗显示标志
+    resetFlag : false
 }
 export default state;

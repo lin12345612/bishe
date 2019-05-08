@@ -44,3 +44,51 @@ export const actSetQyxx = ({commit},xx) =>{
         qyxx : xx
     })
 }
+
+// 修改登陆框显示内容
+export const actChangeLg = ({commit},flag) =>{
+    commit({
+        type :'changeLg',
+        lg : flag
+    })
+}
+
+// 修改用户
+export const acytChangeUser = ({commit},name) =>{
+    commit({
+        type : 'changeUser',
+        user : name
+    })
+}
+
+// 登陆弹窗登陆显示标志
+export const actChangeDlFlag = ({commit},flag) =>{
+    commit({
+        type :'changeDlFlag',
+        flag : flag
+    })
+}
+
+// 用户是否登陆的标志
+export const actChangeLogin = ({commit},flag) =>{
+    commit({
+        type : 'changeLogin',
+        flag:flag
+    })
+}
+
+// 注册标志位修改
+export const actChangeRegiFlag =({commit},flag) =>{
+    commit({
+        type : 'changeRegiFlag',
+        flag:flag
+    })
+}
+
+// 修改密码标志位修改
+export const actChangeResetFlag = ({commit},flag)=>{
+    commit({
+        type : 'changeResetFlag',
+        flag :flag
+    })
+}

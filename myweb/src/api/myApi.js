@@ -59,3 +59,70 @@ export function getPlayerInfor(qy){
         }
     })
 }
+
+// 获取比赛情况
+export function getScheme(date){
+    return request({
+        url : '/api/searchGame',
+        method:'post',
+        params:{
+            time:date
+        }
+    })
+}
+// 查看邮箱是否存在
+export function checkAccount(user){
+    return request({
+        url :'/api/checkAccount',
+        method : 'post',
+        params : {
+            user : user
+        }
+    })
+}
+// 点击发送验证码
+export function sendCode(infor){
+    return request({
+        url : '/api/createCode',
+        method:'post',
+        params:{
+            user:infor.user,
+            exist : infor.exist
+        }
+    })
+}
+
+// 发送账号密码验证码到后台
+export function checkCode(info){
+    return request({
+        url : '/api/checkCodeAndRegi',
+        method : 'post',
+        params:{
+            user : info.user,
+            psw : info.psw,
+            code : info.code
+        }
+    })
+}
+
+// 重置验证码
+export function resetCode(user){
+    return request({
+        url :'/api/resetCode',
+        method : 'post',
+        params:{
+            user :user
+        }
+    })
+}
+// 重置密码
+export function resetPsw(user){
+    return request({
+        url : '/api/resetPsw',
+        method:'post',
+        params:{
+            user : user.user,
+            psw : user.psw
+        }
+    })
+}

@@ -10,12 +10,17 @@
                 <p>姓名：{{$store.state.qyxx.xm}}</p>
                 <p>身高：{{xxArr.height}}米</p>
                 <p>体重：{{xxArr.weight}}公斤</p>
+                <a class="pic-a" target="_blank" :href="xxArr.picLink" v-if="xxArr.picLink != null">球员更多图片</a>
             </div>
             <div class="qy-xx-div qy-last-div">
-                <p>球队：{{$store.state.qyxx.qd}}</p>
+                <div v-if="xxArr.contract != null">
+                    <p>球队：{{$store.state.qyxx.qd}}</p>
+                    <p>合同：{{xxArr.contract}}</p>
+                </div>
+                <p class="retire-p" v-if="xxArr.contract == null">已退役</p>
                 <p>号码：{{xxArr.number}}</p>
                 <p>选秀：{{xxArr.rookie}}</p>
-                <p>合同：{{xxArr.contract}}</p>
+                
             </div>
         </div>
         <!-- 球员荣誉 -->
@@ -94,6 +99,7 @@ export default {
             xxArr : [],
             syArr : [],
             ryArr : [],
+            ljtz  : '',
             txSrc : '',
             txShow :false,
             ryShow : false
@@ -111,6 +117,7 @@ export default {
             var load = myload();
             getPlayerInfor(xx).then(data=>{
                 this.xxArr = data.data.info[0][0];
+                this.ljtz = this.xxArr.picLink;
                 this.syArr = data.data.info[1];
                 this.ryArr = data.data.info[2];
                 if(this.ryArr.length > 0){
@@ -170,6 +177,9 @@ export default {
             margin-bottom: 10px;
             line-height: 1.5;
         }
+        .retire-p{
+            color: #f25a29;
+        }
     }
     .qy-last-div{
         width: 350px;
@@ -214,6 +224,19 @@ export default {
     }
     .career-common-tr td{
         text-align: center;
+    }
+    .pic-a{
+        animation: setColor 1s linear infinite;
+        font-size: 18px;
+        line-height: 1.5;
+    }
+    @keyframes setColor {
+        0%{
+            color: #f25a29;
+        }
+        100%{
+            color: #528434;
+        }
     }
 </style>
 

@@ -50,7 +50,7 @@
                         :key="index"
                         class="player-li"
                     >
-                        <section class="player-sec">
+                        <section class="player-sec" @click="linkQy(item.player)">
                             <div class="number-div side-common-div">{{item.number}}</div>
                             {{item.player}}
                             <div class="img-div side-common-div">
@@ -59,6 +59,17 @@
                         </section>
                     </li>
                 </ul>
+            </div>
+            <!-- 新闻链接 -->
+            <div class="news-div" v-if="newShow">
+                <p class="new-title-p">新闻专区</p>
+                <a 
+                    v-for="(item,index) in newLink"
+                    :key="index"
+                    :href="item.newSrc"
+                    target="_blank"
+                    class="new-a"
+                >{{item.newTitle}}</a>
             </div>
         </div>
     </div >
@@ -175,7 +186,9 @@ export default {
                     label: '骑士'
                 }]
             }],
-            value : ''
+            value : '',
+            newLink : [],
+            newShow : false
         }
     },
     created(){
@@ -193,6 +206,8 @@ export default {
                 this.imgSrc = '../../images' + data.data.info[0][0].logoSrc;
                 this.pArr = data.data.info[2];
                 this.oinfor = data.data.info[1][0];
+                this.newLink = data.data.info[3];
+                this.newShow = true;
                 imgLoad(this.imgSrc).then(()=>{
                     this.imgShow = true
                 }).catch((err) => {
@@ -217,6 +232,10 @@ export default {
                 this.oinfor = data.data.info[1][0];
                 this._part = this.oinfor.part
                 this._rank = this.oinfor.ranks
+                this.newLink = data.data.info[3];
+                this.newShow = true;
+                console.log(this.newLink);
+                console.log(this.newShow);
                 imgLoad(this.imgSrc).then(()=>{
                     this.imgShow = true
                 }).catch((err) => {
@@ -238,6 +257,8 @@ export default {
                 this.oinfor = data.data.info[1][0];
                 this._part = this.oinfor.part
                 this._rank = this.oinfor.ranks
+                this.newLink = data.data.info[3];
+                this.newShow = true;
                 imgLoad(this.imgSrc).then(()=>{
                     this.imgShow = true
                 }).catch((err) => {
@@ -248,6 +269,17 @@ export default {
             }).catch((err)=>{
                 console.log(err);
             })
+        },
+        // 球员点击跳转
+        linkQy(_qy){
+            var xx = {
+                xm : _qy,
+                qd : this._team
+            }
+            this.$store.dispatch('actChangePf',false) //设置进入球员页面的标志
+            this.$store.dispatch('actSetQyxx',xx);   //修改选择的球员以及所在球队
+            this.$store.dispatch('actChangeMf',3);   //修改导航栏样式
+            this.$router.push({name:'playerInfor'})
         }
     },
     components:{SelectPage}
@@ -357,11 +389,12 @@ export default {
             line-height:58px;
             border-top:1px solid rgba(242,90,41,1);
             border-bottom:1px solid rgba(242,90,41,1);
-            min-width:210px;
+            min-width:235px;
             text-align:center;
             cursor: pointer;
             &:hover{
                 background: #fff;
+                text-decoration:underline;
             }
         }
         .side-common-div{
@@ -401,6 +434,33 @@ export default {
             width: 80px;
             // height: 100%;
             margin: 2px 0 0 -10px;
+        }
+    }
+    .news-div{
+        border:1px solid #ddd;
+        min-height: 200px;
+        background-color: #fff;
+        padding-bottom: 5px;
+    }
+    .new-title-p{
+        border-bottom: 1px solid #ddd;
+        font-size: 22px;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 20px;
+        font-weight: bold;
+        background-color: #f0f0f0;
+        margin-bottom: 5px;
+    }
+    .new-a{
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        font-size: 18px;
+        color:#333;
+        padding-left: 20px;
+        &:hover{
+            text-decoration: underline;
         }
     }
 </style>
