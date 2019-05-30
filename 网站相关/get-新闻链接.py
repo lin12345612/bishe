@@ -5,10 +5,6 @@ session = HTMLSession()
 # url=["https://nba.hupu.com/teams/rockets"]
 urlArr = [
     {
-        'url' : 'https://nba.hupu.com/teams/hawks',
-        'name' : '老鹰'
-    },
-    {
         'url' : 'https://nba.hupu.com/teams/rockets',
         'name' : '火箭'
     },
@@ -17,12 +13,12 @@ urlArr = [
         'name' : '马刺'
     },
     {
-        'url' : 'https://nba.hupu.com/teams/grizzlies',
-        'name' : '灰熊'
-    },
-    {
         'url' : 'https://nba.hupu.com/teams/pelicans',
         'name' : '鹈鹕'
+    },
+    {
+        'url' : 'https://nba.hupu.com/teams/grizzlies',
+        'name' : '灰熊'
     },
     {
         'url' : 'https://nba.hupu.com/teams/mavericks',
@@ -57,16 +53,20 @@ urlArr = [
         'name' : '开拓者'
     },
     {
-        'url' : 'https://nba.hupu.com/teams/jazz',
-        'name' : '爵士'
-    },
-    {
         'url' : 'https://nba.hupu.com/teams/thunder',
         'name' : '雷霆'
     },
     {
+        'url' : 'https://nba.hupu.com/teams/jazz',
+        'name' : '爵士'
+    },
+    {
         'url' : 'https://nba.hupu.com/teams/timberwolves',
         'name' : '森林狼'
+    },
+    {
+        'url' : 'https://nba.hupu.com/teams/bucks',
+        'name' : '雄鹿'
     },
     {
         'url' : 'https://nba.hupu.com/teams/raptors',
@@ -89,6 +89,10 @@ urlArr = [
         'name' : '尼克斯'
     },
     {
+        'url' : 'https://nba.hupu.com/teams/heat',
+        'name' : '热火'
+    },
+    {
         'url' : 'https://nba.hupu.com/teams/magic',
         'name' : '魔术'
     },
@@ -97,16 +101,12 @@ urlArr = [
         'name' : '黄蜂'
     },
     {
-        'url' : 'https://nba.hupu.com/teams/heat',
-        'name' : '热火'
-    },
-    {
         'url' : 'https://nba.hupu.com/teams/wizards',
         'name' : '奇才'
     },
     {
-        'url' : 'https://nba.hupu.com/teams/bucks',
-        'name' : '雄鹿'
+        'url' : 'https://nba.hupu.com/teams/hawks',
+        'name' : '老鹰'
     },
     {
         'url' : 'https://nba.hupu.com/teams/pacers',
@@ -135,7 +135,7 @@ def getAllNew(item):
             results = r.html.find(sel)
             for result in results:
                 mytext = result.text
-                print(result.absolute_links)
+                # print(result.absolute_links)
                 mylink = list(result.absolute_links)[0]
                 mylist.append([mytext,mylink])
             return mylist
