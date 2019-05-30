@@ -56,4 +56,13 @@ router.post('/api/checkCodeAndRegi',(req,res,next) =>{
   api.checkCode(req,res,next)
 })
 
+// 重置验证码
+router.post('/api/resetCode',(req,res,next) =>{
+  api.resetCode(req,res,next)
+})
+// 重置密码
+router.post('/api/resetPsw',(req,res,next) =>{
+  api.resetPsw(req,res,next);
+})
+
 module.exports = router;

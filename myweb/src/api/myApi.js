@@ -81,12 +81,13 @@ export function checkAccount(user){
     })
 }
 // 点击发送验证码
-export function sendCode(user){
+export function sendCode(infor){
     return request({
         url : '/api/createCode',
         method:'post',
         params:{
-            user:user
+            user:infor.user,
+            exist : infor.exist
         }
     })
 }
@@ -100,6 +101,28 @@ export function checkCode(info){
             user : info.user,
             psw : info.psw,
             code : info.code
+        }
+    })
+}
+
+// 重置验证码
+export function resetCode(user){
+    return request({
+        url :'/api/resetCode',
+        method : 'post',
+        params:{
+            user :user
+        }
+    })
+}
+// 重置密码
+export function resetPsw(user){
+    return request({
+        url : '/api/resetPsw',
+        method:'post',
+        params:{
+            user : user.user,
+            psw : user.psw
         }
     })
 }

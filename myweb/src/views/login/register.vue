@@ -155,7 +155,11 @@ export default {
                     _this.clickable = true;
 
                 },1000)
-                sendCode(this.yx).then(data =>{
+                var infor = {
+                    user : this.yx,
+                    exist : false
+                }
+                sendCode(infor).then(data =>{
                     console.log(data.data);
                 }).catch(err => console.log(err))
             }else{

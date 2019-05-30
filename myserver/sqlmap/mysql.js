@@ -39,7 +39,13 @@ module.exports = {
         return `SELECT * FROM teamscheme WHERE pDate="${time}";`},
 
     // 插入验证码
-    insertCode : `INSERT INTO user(mail,code,psw) VALUES(?,?,'');`,
+    insertCode : function(user,num){
+        return `INSERT INTO user(mail,code,psw) VALUES("${user}","${num}",'');`
+    },
+    // 更新验证码
+    updateCode : function(user,num){
+        return `UPDATE user SET code="${num}" WHERE mail="${user}"; `
+    },
     // 判断邮箱是否存在
     checkAccount : 'SELECT mail FROM user WHERE mail=?',
     // 校验验证码

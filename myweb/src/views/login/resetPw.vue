@@ -15,14 +15,20 @@
             </el-steps>
             <div class="fill-input-div">
                 <div class="step-cover-div" v-show="currIndex == 1 "> 
-                    <el-input 
-                        placeholder="请输入账号"
-                        prop="user"
-                        v-model="user1"
-                        :class="{'user-warm-p': noValue}"
-                        @blur="showWarm"
-                        >
-                    </el-input>
+                    <el-form>
+                        <el-form-item>
+                            <el-input 
+                                placeholder="请输入账号"
+                                prop="user"
+                                v-model="user1"
+                                :class="{'user-warm-p': noValue}"
+                                @blur="showWarm"
+                                >
+                            </el-input>
+                            <p class="exist-p" v-if="existFlag" @click="linkRegi">账号不存在，去注册>></p>
+                            <p class="exist-p" v-if="wrongFlag">邮箱格式错误</p>
+                        </el-form-item>
+                    </el-form>
                     <div class="code-div">
                         <el-input
                             placeholder="请输入验证码"
@@ -54,6 +60,7 @@
     </div>
 </template>
 <script>
+import {checkAccount,sendCode,checkCode,resetCode,resetPsw} from '@/api/myApi.js'
 export default {
     name : 'resetPassword',
     data(){
@@ -88,8 +95,8 @@ export default {
             warmP : '验证码错误',
             warmFlag :false,
             btnText :'下一步',
-            noValue : false,
-            noCodeValue :false,
+            noValue : false,    //未输入邮箱提醒
+            noCodeValue :false, //未输入验证码提醒
             ruleForm: {
                 pass: '',
                 checkPass: ''
@@ -101,58 +108,117 @@ export default {
                 checkPass: [
                     { validator: validatePass2, trigger: 'blur' }
                 ]
-            }
+            },
+            existFlag :false, //邮箱已存在提醒
+            wrongFlag : false,//邮箱格式错误提醒
+            jycheck   : false, //邮箱校验完成
+
         }
     },
     methods:{
         handleClose(){
             this.$store.dispatch('actChangeResetFlag',false)
         },
+        // 获取验证码
         getCode(){
-            var num = 60;
-            var _this = this;
-            var timer = setInterval(function(){
-                num--;
-                if(num == 0){
-                    clearInterval(timer);
-                    num = 60;
-                    _this.clickable = false;
-                    _this.codeText = '未收到？点击获取'
-                    return;
-                }
-                _this.codeText = num + 's'
-                _this.clickable = true;
+            if(this.jycheck){
+                var num = 60;
+                var _this = this;
+                var timer = setInterval(function(){
+                    num--;
+                    if(num == 0){
+                        clearInterval(timer);
+                        num = 60;
+                        _this.clickable = false;
+                        _this.codeText = '未收到？点击获取'
+                        return;
+                    }
+                    _this.codeText = num + 's后重新获取'
+                    _this.clickable = true;
 
-            },1000)
+                },1000)
+                var infor = {
+                    user :this.user1,
+                    exist : true
+                }
+                sendCode(infor)
+            }else{
+                if(!this.noValue){
+                    this.warmP = '请输入正确的邮箱';
+                    this.warmFlag = true;
+                }
+            }
         },
+        // 下一步按钮
         getNext(){
-            if(this.currIndex == 1){
-                if(this.user1 == ''){
-                    this.noValue = true;
-                }else if(this.yzm == ''){
-                    this.noCodeValue  = true;
-                }else{
-                    this.currIndex++;
-                    this.currStep++;
+            if(this.currIndex == 1){   //第一步
+                if(this.jycheck){    //邮箱校验完成
+                    if(this.yzm == ''){
+                        this.noCodeValue = true
+                    }else{
+                        // 校验验证码
+                        var info = {
+                            user : this.user1,
+                            psw  : '',
+                            code : this.yzm
+                        }
+                        checkCode(info).then(data =>{
+                            if(data.data.regi){     //校验成功
+                                this.currIndex = 2;
+                                this.currStep = 1;
+                                resetCode(this.user1);  //重置验证码
+                            }else{
+                                this.warmFlag = true;
+                            }
+                        }).catch(err => console.log(err))
+                    }
                 }
             }else if(this.currIndex == 2){
                 this.$refs.ruleForm.validate((valid) =>{
                     if(valid){
-                        console.log('可以提交');
-                        this.currIndex++;
-                        this.currStep++;
-                        this.btnText = '去登录'
+                        var user = {
+                            user : this.user1,
+                            psw : this.ruleForm.pass
+                        }
+                        resetPsw(user).then(data => {
+                            if(data.data.cg){
+                                this.currIndex++;
+                                this.currStep++;
+                                this.btnText = '去登录'
+                            }
+                        }).catch(err =>console.log(err))
                     }
                 }) 
             }else{
-
+                this.$store.dispatch('actChangeResetFlag',false)
+                this.$store.dispatch('actChangeDlFlag',true)
             }
         },
+        // 账号校验
         showWarm(){
             if(this.user1 == ''){
                 this.noValue = true;
+                this.wrongFlag = false;
+                this.warmFlag = false;
             }else{
+                // 先匹配账号格式
                 this.noValue = false;
+                var yxRule = /^([A-Za-z0-9])\w+@[A-Za-z0-9]+\.([a-zA-A]{2,4})$/;
+                if(!this.user1.match(yxRule)){
+                    this.wrongFlag = true
+                }else{
+                    this.wrongFlag = false
+                    checkAccount(this.user1).then(data=>{
+                        if(!data.data.info){    //邮箱存在，则不进行任何提示//邮箱不存在，提示去注册
+                            this.existFlag = true;
+                        }else{
+                            this.existFlag = false; //隐藏提示
+                            this.jycheck = true;   //邮箱校验完成
+                            this.warmFlag = false; //隐藏邮箱提示
+                        }
+                    }).catch(err=>console.log(err))
+                }
+
             }
         },
         codeShowWarm(){
@@ -161,6 +227,10 @@ export default {
             }else{
                 this.noCodeValue  = false
             }
+        },
+        linkRegi(){
+            this.$store.dispatch('actChangeResetFlag',false)
+            this.$store.dispatch('actChangeRegiFlag',true)
         }
     }
 }
@@ -250,7 +320,7 @@ export default {
                 display: block;
                 position: absolute;
                 left: 0;
-                top:42px;
+                top:32px;
                 font-size: 12px;
                 color: #f56c6c;
             }

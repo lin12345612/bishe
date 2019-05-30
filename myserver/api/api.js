@@ -175,6 +175,8 @@ module.exports = {
             num += Math.floor(Math.random()*10)
         }
         var _yh = req.query.user;
+        var _flag = req.query.exist;
+        
         // 发送邮件
         var mail1 = {
             from : 'nbachat@foxmail.com',//发件人
@@ -190,8 +192,16 @@ module.exports = {
             var msg = '验证码发送成功';
             var _res = {};
             var jg = 200;
-            var sql = sqlMap.insertCode;
-            connection.query(sql,[_yh,num],(err,result) =>{
+            // console.log(_flag);
+            if(_flag == 'true'){    //判断是注册还是修改密码的请求，true为修改密码，则为update语句，false为注册，则为插入语句
+                var sql = sqlMap.updateCode(_yh,num);
+                
+            }else if(_flag == 'false'){
+                var sql = sqlMap.insertCode(_yh,num);
+            }
+            // console.log(sql);
+            // console.log(_yh,num);
+            connection.query(sql,(err,result) =>{
                 if(err){
                     console.log('数据传输出错了');
                     return ;
@@ -278,6 +288,54 @@ module.exports = {
                     }
                     connection.release()
                 })
+            })
+        })
+    },
+    // 随机重置验证码
+    resetCode(req,res,next){
+        var _yh = req.query.user;
+        var num = '';
+        for(var g = 0 ; g < 6 ; g++){
+            num += Math.floor(Math.random()*10)
+        }
+        pool.getConnection((err,connection) => {
+            if(err){
+                return '连接出错'
+            }
+            var msg = '重置成功';
+            var _res = {}
+            var sql = sqlMap.updateCode(_yh,num);
+            connection.query(sql,(err,result)=>{
+                if(err){
+                    console.log('数据传输出错');
+                    return;
+                }
+                _res.msg = msg;
+                res.json(_res);
+                connection.release()
+            })
+        })
+    },
+    // 重置密码
+    resetPsw(req,res,next){
+        var _yh = req.query.user;
+        var _psw = req.query.psw;
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了';
+            }
+            var msg = '重置成功';
+            var _res = {}
+            var sql = sqlMap.upDateUser;
+            connection.query(sql,[_psw,_yh], (error,result)=> {
+                if(error){
+                    console.log('数据传输出错了');
+                    return;
+                }
+                _res.msg = msg;
+                _res.cg = true
+                res.json(_res)
+                connection.release()
             })
         })
     }
