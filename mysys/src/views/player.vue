@@ -91,7 +91,7 @@
                     <div class="opera-div">
                         <button class="career-btn" @click="showCareer(index)">生涯数据</button>
                         <button class="honor-btn" @click="showHonor(index)">荣誉</button>
-                        <button class="save-btn">保存</button>
+                        <button class="save-btn" @click="saveInfor(index)">保存</button>
                         <button @click="cancelAdd(index)">取消</button>
                     </div>
                 </td>
@@ -376,6 +376,20 @@ export default {
             if(!this.qyxxArr[index].pid){
                 this.qyxxArr.splice(index,1);
             }
+        },
+        // 保存按钮
+        saveInfor(index){
+            console.log(this.qyxxArr[index]);
+            let pid = this.qyxxArr[index].pid;
+            let qyzt = this.qyxxArr[index].qyzt;
+            let player = this.qyxxArr[index].player;
+            let tid = this.qyxxArr[index].tid;
+            let number = this.qyxxArr[index].number;
+            let height = this.qyxxArr[index].height-0;
+            let weight = this.qyxxArr[index].weight-0;
+            let rookie = this.qyxxArr[index].rookie;
+            let contract = this.qyxxArr[index].contract;
+            let imgSrc = this.qyxxArr[index].imgSrc;
         }
     }
 }
