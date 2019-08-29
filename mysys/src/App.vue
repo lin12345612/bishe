@@ -33,4 +33,10 @@ td{
   text-align: center;
   padding: 0 5px;
 }
+textarea{
+  resize: none;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
 </style>

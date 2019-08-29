@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="new-btn-div">
-            <el-button type="primary">新增</el-button>
+            <el-button type="primary" @click="addNewPlayer">新增</el-button>
         </div>
         <table>
             <tr class="title-tr">
@@ -26,7 +26,7 @@
                 <td>合同</td>
                 <td>头像</td>
                 <td>头像地址</td>
-                <td  width="200px">操作</td>
+                <td  width="240px">操作</td>
             </tr>
             <tr 
                 class="common-tr"
@@ -76,12 +76,12 @@
                 <td>
                     <div class="img-cover-div">
                         <span class="span-img">
-                            <img :src="item.imgSrc" v-if="item.imgSrc">
+                            <img :src="item.imgUrl" v-if="item.imgUrl">
                         </span>
                         <div class="chose-file">
-                            <input type="file">
+                            <input type="file" @change="changeTx(index,$event)">
                         </div>
-                        <el-button type="primary">确定</el-button>
+                        <el-button type="primary" @click="modifyTx(index)">确定</el-button>
                     </div>
                 </td>
                 <td>
@@ -89,13 +89,15 @@
                 </td>
                 <td>
                     <div class="opera-div">
-                        <button class="career-btn">生涯数据</button>
+                        <button class="career-btn" @click="showCareer(index)">生涯数据</button>
                         <button class="honor-btn" @click="showHonor(index)">荣誉</button>
                         <button class="save-btn">保存</button>
+                        <button @click="cancelAdd(index)">取消</button>
                     </div>
                 </td>
             </tr>
         </table>
+        <!-- 荣誉弹窗 -->
         <my-pop :mytitle="mytitle" :mw="mw" :mypop="mypop" :myclass="myclass" @closepop="closepop">
             <div class="honor-pop-div" slot="pcont">
                 <div class="search-div">
@@ -103,7 +105,7 @@
                         <el-input v-model="honor" placeholder="请输入荣誉"></el-input>
                     </div>
                     <div class="btn-div">
-                        <el-button type="primary">添加</el-button>
+                        <el-button type="primary" @click="addHonor">添加</el-button>
                     </div>
                 </div>
                 <div class="honor-new-div">
@@ -128,6 +130,43 @@
                         {{item.honor}}
                         <i class="el-dialog__close el-icon el-icon-close my-i" @click="deleteHonor(index)"></i>
                     </section>
+                </div>
+            </div>
+        </my-pop>
+        <!-- 生涯数据弹窗 -->
+        <my-pop :mytitle="mytitle" :mw="mw1" :mypop="mycar" :myclass="myclass1" @closepop="closepop1">
+            <div class="career-div" slot="pcont">
+                <div class="career-new-div" >
+                    <textarea class="my-textarea" v-model="career"></textarea>
+                    <el-button type="primary" class="add-btn">确定添加</el-button>
+                </div>
+                <div class="career-cover-div">
+                    <table>
+                        <tr class="title-tr">
+                            <td>赛季</td>
+                            <td>球队</td>
+                            <td>总得分</td>
+                            <td>总篮板</td>
+                            <td>总助攻</td>
+                            <td>总抢断</td>
+                            <td>总盖帽</td>
+                            <td>平均数据</td>
+                        </tr>
+                        <tr 
+                            class="common-tr"
+                            v-for="(item,index) in careerArr"
+                            :key="index"
+                        >
+                            <td>{{item.season}}</td>
+                            <td>{{item.preTeam}}</td>
+                            <td>{{item.cPoint}}</td>
+                            <td>{{item.cReb}}</td>
+                            <td>{{item.cAssist}}</td>
+                            <td>{{item.cSteal}}</td>
+                            <td>{{item.cBlock}}</td>
+                            <td>{{item.aveData}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </my-pop>
@@ -174,12 +213,13 @@ export default {
                 //     imgfile : ''
                 // }
             ],
-            mytitle : '新增生涯数据',
+            // 荣誉弹窗部分
+            mytitle : '荣誉',
             mw : '50%',
-            mypop : true,
+            mypop : false,
             myclass:'player-honor-pop',
             honor : '', //添加荣誉
-            newHonorArr : ['hahha','2017-2018赛季最佳阵容一阵'],
+            newHonorArr : ['hahha','2017-2018赛季最佳阵容一阵'],  //存储新增荣誉
             hasHonorArr : [
                 {
                     rid:1,
@@ -189,8 +229,25 @@ export default {
                     rid:1,
                     honor : '2017-2018赛季最佳防守阵容一阵'
                 }
+            ],//存储球员荣誉
+            // 生涯数据部分弹窗
+            mw1 : '60%',
+            mycar : false,
+            myclass1 : 'player-career-pop',
+            pid : 0,   //打开的弹窗对应某个球员的id
+            careerArr : [
+                {
+                    preTeam  : '迈阿密热火',
+                    season   : '2018-2019赛季',
+                    cPoint   : '1261',
+                    cReb     : '620',
+                    cAssist  : '570',
+                    cSteal   : '120',
+                    cBlock   : '50',
+                    aveData  : 'xxxxxxxxxxxx'
+                }
             ],
-            pid : '',   //打开的弹窗对应于某个球员
+            career : ''
         }
     },
     created(){
@@ -207,6 +264,7 @@ export default {
                     rookie   : '2003年第一轮第一顺位',
                     contract : 'xxxxx',
                     imgSrc : '/images/tx/laker/LeBron-James.jpg',
+                    imgUrl : '/images/tx/laker/LeBron-James.jpg',
                     imgfile : ''
                 }
             ]
@@ -229,6 +287,24 @@ export default {
                 // console.log(_arr);
             }).catch(err=>{console.log(err);})
         },
+        // 新增球员
+        addNewPlayer(){
+            let obj = {
+                player : '',
+                pid    : '',
+                qyzt   : 0,
+                tid    : '',
+                number : '',
+                height : '',
+                weight : '',
+                rookie   : '',
+                contract : '',
+                imgSrc : '',
+                imgUrl : '',
+                imgfile : ''
+            }
+            this.qyxxArr.push(obj)
+        },
         // 条件修改
         changeCondTeam(val){
             console.log(val);
@@ -242,6 +318,7 @@ export default {
             console.log(index);
             console.log(this.qyxxArr[index].tid);
         },
+        // 关闭荣誉弹窗
         closepop(){
             this.mypop = false;
             this.honor = '';
@@ -249,7 +326,7 @@ export default {
         },
         // 删除即将添加的荣耀
         deleteThis(index){
-            console.log(index);
+            this.newHonorArr.splice(index,1)
         },
         // 删除荣耀
         deleteHonor(index){
@@ -257,7 +334,48 @@ export default {
         },
         // 打开荣耀弹窗
         showHonor(index){
-
+            this.mytitle = '荣誉'
+            this.pid = this.qyxxArr[index].pid;
+            this.mypop = true;
+        },
+        // 添加荣耀
+        addHonor(){
+            if(this.honor){
+                this.newHonorArr.push(this.honor)
+                this.honor = ''
+            }
+        },
+        // 关闭生涯弹窗
+        closepop1(){
+            this.mycar = false;
+            this.career = '';
+        },
+        // 打开生涯数据弹窗
+        showCareer(index){
+            this.pid = this.qyxxArr[index].pid;
+            this.title="生涯数据"
+            this.mycar = true;
+        },
+        // 更换头像
+        changeTx(){
+            let index = arguments[0];
+            let _e = arguments[1].target.files[0];
+            let _url = URL.createObjectURL(_e)
+            this.qyxxArr[index].imgUrl = _url;
+            this.qyxxArr[index].imgfile = _e
+        },
+        // 修改头像
+        modifyTx(index){
+            let formd = new FormData();
+            formd.append('qytx',this.qyxxArr[index].imgfile);
+            formd.append('txdz',this.qyxxArr[index].imgSrc);
+            console.log(formd);
+        },
+        // 取消按钮
+        cancelAdd(index){
+            if(!this.qyxxArr[index].pid){
+                this.qyxxArr.splice(index,1);
+            }
         }
     }
 }
@@ -302,14 +420,11 @@ export default {
                 cursor: pointer;
             }
         }
-        .career-btn{
-
-        }
         .honor-btn{
-            margin: 0 15px;
+            margin: 0 10px;
         }
         .save-btn{
-
+            margin-right: 10px;
         }
         .img-cover-div{
             display: flex;
@@ -343,7 +458,6 @@ export default {
         }
     }
     .honor-pop-div{
-
         .search-div{
             display: flex;
         }
@@ -374,7 +488,7 @@ export default {
             position: relative;
             height: 24px;
             line-height: 24px;
-            background-color: rgb(64, 158, 255);
+            background-color: rgba(64, 158, 255,.9);
             color:#fff;
             border-radius: 3px;
             margin: 0 10px 10px 0
@@ -388,7 +502,27 @@ export default {
             @include set-pt;
             right: 10px;
         }
-        .honor-old-div{
+    }
+    .player-career-pop{
+        .career-new-div{
+            width: 100%;
+            padding-right: 150px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .my-textarea{
+            width: 100%;
+            min-height: 150px;
+        }
+        .add-btn{
+            @include set-pt;
+            right: 10px;
+        }
+        .career-cover-div{
+            min-height: 150px;
+            max-height: 300px;
+            overflow: auto;
+            position: relative;
         }
     }
 </style>
