@@ -2,10 +2,10 @@
     <div class="player-div">
         <div class="search-div">
             <div class="input-div">
-                <el-input v-model="player" placeholder="请输入球员"></el-input>
+                <el-input v-model="player" placeholder="请输入球员" @keyup.native.enter="searchPlayer"></el-input>
             </div>
             <div class="btn-div">
-                <el-button type="primary">查询</el-button>
+                <el-button type="primary" @click="searchPlayer">查询</el-button>
             </div>
             <div class="select-cover-div" v-if="condQd">
                 <team-select @teamchange="changeCondTeam"></team-select>
@@ -173,7 +173,8 @@
     </div>
 </template>
 <script>
-import {getTeam} from '@/api/api';
+import {getTeam,searchPlayerByName,searchPlayerByTeam,operaPlayer} from '@/api/api';
+import { Message } from 'element-ui';
 import teamSelect from '@/components/select-team.vue'
 import MyPop from '@/components/my-pop.vue'
 export default {
@@ -252,29 +253,16 @@ export default {
     },
     created(){
         this.getTeam();
-        setTimeout(()=>{
-            this.qyxxArr = [{
-                    player : '詹姆斯',
-                    pid    : 78,
-                    qyzt   : 0,
-                    tid    : 'wteam09',
-                    number : '23',
-                    height : 2.13,
-                    weight : 100,
-                    rookie   : '2003年第一轮第一顺位',
-                    contract : 'xxxxx',
-                    imgSrc : '/images/tx/laker/LeBron-James.jpg',
-                    imgUrl : '/images/tx/laker/LeBron-James.jpg',
-                    imgfile : ''
-                }
-            ]
-        },1000)
     },
     methods:{
         getTeam(){
             getTeam().then(res=>{
                 // console.log(res.data);
                 let _arr = [...res.data.info[0],...res.data.info[1]]
+                this.tr.push({
+                    value : '',
+                    label : '无球队'
+                })
                 for(let i = 0 ; i < _arr.length;i++){
                     let _obj = {
                         value : _arr[i].tid,
@@ -307,7 +295,9 @@ export default {
         },
         // 条件修改
         changeCondTeam(val){
-            console.log(val);
+            searchPlayerByTeam(val).then(res=>{
+                this.qyxxArr = res.data.result;
+            }).catch(err=>{console.log(err);})
         },
         // 改变球员球队
         changeTdTeam(){
@@ -379,7 +369,6 @@ export default {
         },
         // 保存按钮
         saveInfor(index){
-            console.log(this.qyxxArr[index]);
             let pid = this.qyxxArr[index].pid;
             let qyzt = this.qyxxArr[index].qyzt;
             let player = this.qyxxArr[index].player;
@@ -390,6 +379,24 @@ export default {
             let rookie = this.qyxxArr[index].rookie;
             let contract = this.qyxxArr[index].contract;
             let imgSrc = this.qyxxArr[index].imgSrc;
+            operaPlayer(pid,player,tid,qyzt,number,height,weight,rookie,contract,imgSrc).then(res=>{
+                console.log(res.data);
+                if(res.data.success){
+                    this.qyxxArr[index].pid = res.data.pid;
+                    Message.success({
+                        message: '保存成功'
+                    });
+                }
+            }).catch(err=>{console.log(err);})
+        },
+        // 查询按钮
+        searchPlayer(){
+            // console.log(this.player);
+            if(this.player){
+                searchPlayerByName(this.player).then(res=>{
+                    this.qyxxArr = res.data.result;
+                }).catch(err=>{console.log(err);})
+            }
         }
     }
 }

@@ -19,3 +19,34 @@ export function getTeam(){
         url : '/api/getTeamRank'
     })
 }
+// 查找球员--通过名字
+export function searchPlayerByName(player){
+    return service({
+        url : '/api/sysSearchPlayerByName',
+        method:'post',
+        data:{
+            player
+        }
+    })
+}
+
+// 查找球员 --通过球队
+export function searchPlayerByTeam(tid){
+    return service({
+        url : '/api/sysSearchPlayerByTeam',
+        method:'post',
+        data:{
+            tid
+        }
+    })
+}
+// 保存修改球员
+export function operaPlayer(pid,player,tid,qyzt,number,height,weight,rookie,contract,imgSrc){
+    return service({
+        url : '/api/sysOperaPlayer',
+        method:'post',
+        data:{
+            pid,player,tid,qyzt,number,height,weight,rookie,contract,imgSrc
+        }
+    })
+}
