@@ -119,7 +119,7 @@
                             <i class="el-dialog__close el-icon el-icon-close my-i" @click="deleteThis(index)"></i>
                         </section>
                     </div>
-                    <el-button type="primary" class="add-btn">确定添加</el-button>
+                    <el-button type="primary" class="add-btn" @click="SureAddHonor">确定添加</el-button>
                 </div>
                 <div class="honor-old-div honor-new-cover-div">
                     <section 
@@ -138,8 +138,9 @@
             <div class="career-div" slot="pcont">
                 <div class="career-new-div" >
                     <textarea class="my-textarea" v-model="career"></textarea>
-                    <el-button type="primary" class="add-btn">确定添加</el-button>
+                    <el-button type="primary" class="add-btn" @click="sendSql">确定添加</el-button>
                 </div>
+                <p class="show-pid-p">球员id：{{pid}}</p>
                 <div class="career-cover-div">
                     <table>
                         <tr class="title-tr">
@@ -151,6 +152,7 @@
                             <td>总抢断</td>
                             <td>总盖帽</td>
                             <td>平均数据</td>
+                            <td>操作</td>
                         </tr>
                         <tr 
                             class="common-tr"
@@ -165,6 +167,7 @@
                             <td>{{item.cSteal}}</td>
                             <td>{{item.cBlock}}</td>
                             <td>{{item.aveData}}</td>
+                            <td><p class="del-p" @click="handleDel(index)">删除</p></td>
                         </tr>
                     </table>
                 </div>
@@ -173,7 +176,9 @@
     </div>
 </template>
 <script>
-import {getTeam,searchPlayerByName,searchPlayerByTeam,operaPlayer} from '@/api/api';
+import {getTeam,searchPlayerByName,searchPlayerByTeam,operaPlayer,
+uploadPlayerTx,getPlayerHonor,addPlayerHonor,delPlayerHonor,
+getPlayerCareer,sendSql,delPlayerCareer} from '@/api/api';
 import { Message } from 'element-ui';
 import teamSelect from '@/components/select-team.vue'
 import MyPop from '@/components/my-pop.vue'
@@ -220,17 +225,8 @@ export default {
             mypop : false,
             myclass:'player-honor-pop',
             honor : '', //添加荣誉
-            newHonorArr : ['hahha','2017-2018赛季最佳阵容一阵'],  //存储新增荣誉
-            hasHonorArr : [
-                {
-                    rid:1,
-                    honor : '2017-2018赛季最佳阵容一阵'
-                },
-                {
-                    rid:1,
-                    honor : '2017-2018赛季最佳防守阵容一阵'
-                }
-            ],//存储球员荣誉
+            newHonorArr : [],  //存储新增荣誉
+            hasHonorArr : [],//存储球员荣誉
             // 生涯数据部分弹窗
             mw1 : '60%',
             mycar : false,
@@ -320,13 +316,26 @@ export default {
         },
         // 删除荣耀
         deleteHonor(index){
-            console.log(index);
+            // console.log(index);
+            // console.log(this.hasHonorArr[index].rid);
+            delPlayerHonor(this.hasHonorArr[index].rid).then(res=>{
+                // console.log(res.data);
+                if(res.data.success){
+                    Message.success({
+                        message: '删除成功'
+                    });
+                    this.hasHonorArr.splice(index,1);
+                }
+            })
         },
         // 打开荣耀弹窗
         showHonor(index){
-            this.mytitle = '荣誉'
-            this.pid = this.qyxxArr[index].pid;
-            this.mypop = true;
+            if(this.qyxxArr[index].pid){
+                this.mytitle = '荣誉'
+                this.pid = this.qyxxArr[index].pid;
+                this.mypop = true;
+                this.requestHonor()
+            }
         },
         // 添加荣耀
         addHonor(){
@@ -345,21 +354,35 @@ export default {
             this.pid = this.qyxxArr[index].pid;
             this.title="生涯数据"
             this.mycar = true;
+            if(this.qyxxArr[index].pid){
+                this.requestCareer(this.pid);
+            }
         },
         // 更换头像
         changeTx(){
             let index = arguments[0];
             let _e = arguments[1].target.files[0];
-            let _url = URL.createObjectURL(_e)
-            this.qyxxArr[index].imgUrl = _url;
-            this.qyxxArr[index].imgfile = _e
+            if(_e){
+                let _url = URL.createObjectURL(_e)
+                this.qyxxArr[index].imgUrl = _url;
+                this.qyxxArr[index].imgfile = _e
+            }
         },
-        // 修改头像
+        // 修改头像确定按钮
         modifyTx(index){
             let formd = new FormData();
-            formd.append('qytx',this.qyxxArr[index].imgfile);
-            formd.append('txdz',this.qyxxArr[index].imgSrc);
+            formd.append('myfile',this.qyxxArr[index].imgfile);
+            formd.append('path',this.qyxxArr[index].imgSrc);
             console.log(formd);
+            uploadPlayerTx(formd).then(res=>{
+                if(res.data.success){
+                    Message.success({
+                        message: '保存成功'
+                    });
+                }else{
+                    console.log(res.data.msg);
+                }
+            }).catch(err=>{console.log(err);})
         },
         // 取消按钮
         cancelAdd(index){
@@ -380,7 +403,7 @@ export default {
             let contract = this.qyxxArr[index].contract;
             let imgSrc = this.qyxxArr[index].imgSrc;
             operaPlayer(pid,player,tid,qyzt,number,height,weight,rookie,contract,imgSrc).then(res=>{
-                console.log(res.data);
+                // console.log(res.data);
                 if(res.data.success){
                     this.qyxxArr[index].pid = res.data.pid;
                     Message.success({
@@ -397,7 +420,60 @@ export default {
                     this.qyxxArr = res.data.result;
                 }).catch(err=>{console.log(err);})
             }
+        },
+        // 添加荣誉按钮
+        SureAddHonor(){
+            if(this.newHonorArr.length != 0){
+                addPlayerHonor(this.pid,this.newHonorArr).then(res=>{
+                    if(res.data.success){
+                        Message.success({
+                            message: '保存成功'
+                        });
+                        this.newHonorArr = []
+                        this.requestHonor()
+                    }
+                })
+            }
+        },
+        // 请求荣誉数据
+        requestHonor(){
+            getPlayerHonor(this.pid).then(res=>{
+                this.hasHonorArr = res.data.result;
+            }).catch(err=>{console.log(err);})
+        },
+        // 请求生涯数据
+        requestCareer(){
+            getPlayerCareer(this.pid).then(res=>{
+                this.careerArr = res.data.result;
+            }).catch(err=>{console.log(err);})
+        },
+        // 添加生涯数据按钮
+        sendSql(){
+            if(this.career){
+                sendSql(this.career).then(res=>{
+                    if(res.data.success){
+                        Message.success({
+                            message: '添加成功'
+                        });
+                        this.career = '';
+                        this.requestCareer();
+                    }
+                })
+            }
+        },
+        // 删除球员生涯数据
+        handleDel(index){
+            // console.log(this.careerArr[index].sid);
+            delPlayerCareer(this.careerArr[index].sid).then(res=>{
+                if(res.data.success){
+                    Message.success({
+                        message: '删除成功'
+                    });
+                    this.careerArr.splice(index,1);
+                }
+            })
         }
+
     }
 }
 </script>
@@ -503,6 +579,7 @@ export default {
             min-height: 30px;
             position: relative;
             margin-top: 15px;
+            flex-wrap: wrap;
         }
         .honor-item-sec{
             padding: 0 30px 0 5px;
@@ -544,6 +621,18 @@ export default {
             max-height: 300px;
             overflow: auto;
             position: relative;
+        }
+        .del-p{
+            color: red;
+            cursor: pointer;
+        }
+        .show-pid-p{
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding-left: 30px;
+            color: red;
         }
     }
 </style>

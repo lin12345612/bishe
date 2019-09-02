@@ -50,3 +50,76 @@ export function operaPlayer(pid,player,tid,qyzt,number,height,weight,rookie,cont
         }
     })
 }
+
+// 上传球员头像
+export function uploadPlayerTx(formd){
+    return service({
+        url : '/api/sysuploadPlayerTx',
+        method:'post',
+        data:formd,
+        headers : {'Content-type':'multipart/form-data'}
+    })
+}
+
+// 获取球员荣誉
+export function getPlayerHonor(pid){
+    return service({
+        url : '/api/sysGetPlayerHonor',
+        method:'get',
+        params : {
+            pid
+        }
+    })
+}
+// 新增球员荣誉
+export function addPlayerHonor(pid,honorArr){
+    return service({
+        url : '/api/sysAddPlayerHonor',
+        method:'post',
+        data:{
+           pid,honorArr
+        }
+    })
+}
+// 删除球员荣誉
+export function delPlayerHonor(rid){
+    return service({
+        url : '/api/sysDelPlayerHonor',
+        method:'post',
+        data:{
+           rid
+        }
+    })
+}
+
+// 获取球员生涯数据
+export function getPlayerCareer(pid){
+    return service({
+        url : '/api/sysGetPlayerCareer',
+        params:{
+            pid
+        }
+    })
+}
+
+// 传sql语句到后台
+export function sendSql(sqlStr){
+    return service({
+        url : '/api/sysGetSql',
+        method:'post',
+        data:{
+           sqlStr
+        }
+    })
+}
+
+// 删除球员生涯数据
+export function delPlayerCareer(sid){
+    return service({
+        url : '/api/sysDelPlayerCareer',
+        method:'post',
+        data:{
+           sid
+        }
+    })
+}
