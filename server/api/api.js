@@ -1131,5 +1131,153 @@ module.exports = {
                 connection.release()
             })
         })
+    },
+    // 上传球员头像
+    sysUploadPlayerTx(req,res,next){
+        let _path = req.body.path;
+        let _res = {}
+        fs.writeFile(path.join(__dirname,`../public${_path}`),Buffer.from(req.file.buffer),(err,data)=>{
+            if(err){
+                _res.msg = err;
+                _res.success = false;
+                res.send(_res)
+            }
+            _res.success = true;
+            res.send(_res)
+        });
+    },
+    // 获取球员荣誉
+    sysGetPlayerHonor(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let _pid = req.query.pid
+            var sql = sqlMap.sysGetPlayerHonor(_pid) 
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.result = result;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 新增球员荣誉
+    sysAddPlayerHonor(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let honArr = req.body.honorArr;
+            let pid = req.body.pid;
+            let str = '';
+            for(var i = 0 ; i < honArr.length ; i++){
+                if(i != honArr.length -1){
+                    str += `(${pid},'${honArr[i]}'),`
+                }else{
+                    str += `(${pid},'${honArr[i]}');`
+                }
+            }
+            var sql = sqlMap.sysAddPlayerHonor(str);
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 删除球员荣誉
+    sysDeletePlayerHonor(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let _rid = req.body.rid;
+            var sql = sqlMap.sysDeletePlayerHonor(_rid)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 查询球员生涯
+    sysGetPlayerCareer(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let pid = req.query.pid;
+            var sql = sqlMap.sysGetPlayerCareer(pid)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.result = result;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 前台输入sql语句
+    sysGetSql(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            var sql = req.body.sqlStr; 
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 删除球员生涯数据
+    sysDelPlayerCareer(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let sid = req.body.sid;
+            var sql = sqlMap.sysDelPlayerCareer(sid)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
     }
 }

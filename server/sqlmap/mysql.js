@@ -135,6 +135,26 @@ module.exports = {
     sysGetPlayerId(player,tid){
         let _tid = tid? `'${tid}'`:null;
         return `SELECT pid FROM playerInfor WHERE player='${player}' AND tid=${_tid}`
+    },
+    // 获取球员荣誉
+    sysGetPlayerHonor(pid){
+        return `SELECT rid,honor FROM playerhonor WHERE pid=${pid};`;
+    },
+    // 新增球员荣誉
+    sysAddPlayerHonor(str){
+        return `INSERT INTO playerhonor(pid,honor) VALUES ${str}`;
+    },
+    // 删除球员荣誉
+    sysDeletePlayerHonor(rid){
+        return `DELETE FROM playerhonor WHERE rid=${rid};`
+    },
+    // 获取球员生涯数据
+    sysGetPlayerCareer(pid){
+        return `SELECT sid,preTeam,season,cPoint,cReb,cSteal,cAssist,cBlock,aveData FROM playercareer WHERE pid=${pid} ORDER BY sid DESC;`
+    },
+    // 删除球员生涯数据
+    sysDelPlayerCareer(sid){
+        return `DELETE FROM playercareer WHERE sid=${sid};`;
     }
 
 }

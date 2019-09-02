@@ -184,6 +184,41 @@ router.post('/api/sysOperaPlayer',(req,res,next)=>{
   api.sysOperaPlayer(req,res,next)
 })
 
+// 上传球员头像
+router.post('/api/sysuploadPlayerTx',upload.single('myfile'),(req,res,next)=>{
+  api.sysUploadPlayerTx(req,res,next)
+})
+
+// 获取球员荣誉
+router.get('/api/sysGetPlayerHonor',(req,res,next)=>{
+  api.sysGetPlayerHonor(req,res,next)
+})
+
+// 新增球员荣誉
+router.post('/api/sysAddPlayerHonor',(req,res,next)=>{
+  api.sysAddPlayerHonor(req,res,next)
+})
+
+// 删除球员荣誉
+router.post('/api/sysDelPlayerHonor',(req,res,next)=>{
+  api.sysDeletePlayerHonor(req,res,next)
+})
+
+// 获取球员生涯数据
+router.get('/api/sysGetPlayerCareer',(req,res,next)=>{
+  api.sysGetPlayerCareer(req,res,next)
+})
+
+// 前台获取sql语句
+router.post('/api/sysGetSql',(req,res,next)=>{
+  api.sysGetSql(req,res,next)
+})
+
+// 删除球员生涯数据
+router.post('/api/sysDelPlayerCareer',(req,res,next)=>{
+  api.sysDelPlayerCareer(req,res,next);
+})
+
 
 
 module.exports = router;
