@@ -18,7 +18,23 @@ export default {
               clearInterval(timer)
           }
       },30)
+    },
+    getTeamName(tid,flag=true){
+      let arr = this.$store.state.teamArr;
+      let str = ''
+      for(let i = 0; i < arr.length;i++){
+        if(tid == arr[i].tid){
+          str = flag ? arr[i].tName :arr[i].fName
+          break;
+        }
+      }
+      return str;
     }
+  },
+  created(){
+    this.$router.push({
+      name : 'scheme'
+    })
   }
 }
 </script>

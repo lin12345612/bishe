@@ -1,8 +1,7 @@
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1560257123566'); /* IE9 */
-  src:url('iconfont.woff?t=1560257123566') format('woff'),
-  url('iconfont.ttf?t=1560257123566') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('iconfont.svg?t=1560257123566#iconfont') format('svg'); /* iOS 4.1- */
+  src:url('iconfont.woff?t=1561103361466') format('woff'),
+  url('iconfont.ttf?t=1561103361466') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1561103361466#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 [class^="myweb-icon-"] {
@@ -19,6 +18,10 @@
 
 .myweb-icon-team:before {
   content: "\e600";
+}
+
+.myweb-icon-wx:before {
+  content: "\e672";
 }
 
 .myweb-icon-first:before {
@@ -141,11 +144,19 @@
   content: "\e653";
 }
 
+.myweb-icon-fh:before {
+  content: "\e738";
+}
+
 .myweb-icon-tongji:before {
   content: "\e604";
 }
 
 .myweb-icon-center:before {
   content: "\e76e";
+}
+
+.myweb-icon-yx:before {
+  content: "\e624";
 }
 

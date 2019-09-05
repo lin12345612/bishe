@@ -11,7 +11,7 @@
                     v-for="(item,index) in itemArr"
                     :key="index"
                 >
-                    <p class="item-date-p">比赛时间：{{item.pDate}}</p>
+                    <p class="item-date-p">比赛时间：{{handleTime(item.pDate)}}</p>
                     <div class="game-result-div">
                         <section class="item-team-sec">
                             <span class="team-span">
@@ -35,8 +35,8 @@
                         </section>
                     </div>
                     <div class="lj-div">
-                        <a :href="item.tjlj" target="_blank" class="zwlj-a"><i class="myweb-icon-tongji game-icon"></i>数据统计</a>
-                        <a :href="item.splj" target="_blank" class="zwlj-a"><i class="myweb-icon-sp  game-icon"></i>集锦</a>
+                        <a @click="toOutLink(item.tjlj)" target="_blank" class="zwlj-a"><i class="myweb-icon-tongji game-icon"></i>数据统计</a>
+                        <a @click="toOutLink(item.splj)" target="_blank" class="zwlj-a"><i class="myweb-icon-sp  game-icon"></i>集锦</a>
                     </div>
                 </section>
                 <p class="game-tx-p">到底了，下拉加载更多</p>
@@ -45,7 +45,7 @@
     </div>
 </template>
 <script>
-import {getScheme} from '@/api/myapi.js';
+import {getScheme,getRank} from '@/api/myapi.js';
 import {handleLogo} from '@/utils/getLogo.js';
 export default {
     name :'scheme',
@@ -57,6 +57,7 @@ export default {
         }
     },
     created(){
+        this.$store.dispatch('actChangePage',0)
         this.initData()
     },
     methods:{
@@ -69,6 +70,12 @@ export default {
                         this.itemArr.unshift(item)
                     }
                 }
+            }).catch(err=>{console.log(err);})
+            getRank().then(data=>{
+                let len1 = data.data.info[0].length
+                let arr = [...data.data.info[0],...data.data.info[1]]
+                this.$store.dispatch('actStoreTeamArr',arr)
+                this.$store.dispatch('actStoreNum',len1)
             }).catch(err=>{console.log(err);})
         },
         // 头像处理
@@ -91,6 +98,25 @@ export default {
                 this.isLoading = false;
                 Toast('数据传输出错，请稍微再试');
             })
+        },
+        // 跳转到详情页
+        toOutLink(lj){
+            this.$router.push({
+                name : 'outLink',
+                query:{
+                    lj:lj
+                }
+            })
+        },
+        // 处理时间
+        handleTime(time){
+            let _time = new Date(time);
+            let _y = _time.getFullYear();
+            let _m = _time.getMonth()+1 
+            let _d = _time.getDate() 
+            _m = _m < 10 ? '0'+_m : _m
+            _d = _d < 10 ? '0'+_d : _d
+            return `${_y}-${_m}-${_d}`
         }
     }
 
@@ -105,35 +131,7 @@ export default {
         p{
             margin: 0;
         }
-    }
-    .scheme-cover-div{
-        position: relative;
-        height: 100%;
-        .van-pull-refresh{
-            height: 100%;
-            overflow: auto;
-            box-sizing: border-box;
-        }
-        
-    }
-    .my-refresh{
-        .van-pull-refresh__head{
-            top: -32px;
-        }
-        .van-pull-refresh__track{
-            min-height: 100%;
-            padding: 10px;
-            background-color: #f5f5f5;
-            box-sizing: border-box;
-        }
-        .game-tx-p{
-            text-align: center;
-            height: 20px;
-            line-height: 20px;
-            font-size: 16px;
-        }
-    }
-    .game-item-sec{
+        .game-item-sec{
         height: 170px;
         background-color: #fff;
         border-radius: 5px;
@@ -213,6 +211,35 @@ export default {
             }
         }
     }
+    }
+    .scheme-cover-div{
+        position: relative;
+        height: 100%;
+        .van-pull-refresh{
+            height: 100%;
+            overflow: auto;
+            box-sizing: border-box;
+        }
+        
+    }
+    .my-refresh{
+        .van-pull-refresh__head{
+            top: -32px;
+        }
+        .van-pull-refresh__track{
+            min-height: 100%;
+            padding: 10px;
+            background-color: #f5f5f5;
+            box-sizing: border-box;
+        }
+        .game-tx-p{
+            text-align: center;
+            height: 20px;
+            line-height: 20px;
+            font-size: 16px;
+        }
+    }
+    
 </style>
 
 

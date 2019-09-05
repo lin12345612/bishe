@@ -93,6 +93,7 @@ export default {
         line-height: 40px;
         text-align: center;
         font-size: 16px;
+        z-index: 100;
         .logo-span{
             position: absolute;
             top: 50%;

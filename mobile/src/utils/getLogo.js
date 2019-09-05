@@ -1,3 +1,4 @@
+// 加载头像链接
 export function handleLogo(name){
     let _src = '';
     switch(name){
@@ -93,4 +94,16 @@ export function handleLogo(name){
             break;
     }
     return _src;
+}
+export function loadImg(url){
+    return new Promise((resolve,reject) =>{
+        var image = new Image();
+        image.onload = function(){
+            resolve()
+        }
+        image.onerror = function(){
+            reject('图片加载失败')
+        }
+        image.src = url;
+    })
 }
