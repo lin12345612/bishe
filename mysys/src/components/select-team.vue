@@ -34,7 +34,7 @@ export default {
         // }
     },
     created(){
-        console.log(99);
+        // console.log(99);
         if(this.$store.state.teamArr.length != 0){
             for(var g = 0 ; g < this.$store.state.teamArr.length ; g++){
                 this.arr.push({

@@ -123,3 +123,14 @@ export function delPlayerCareer(sid){
         }
     })
 }
+
+// 获取球队信息
+export function getTeamInfor(team){
+    return service({
+        url : '/api/getTeamInfor',
+        method:'post',
+        data:{
+            team
+        }
+    })
+}

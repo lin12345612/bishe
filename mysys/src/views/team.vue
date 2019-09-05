@@ -21,8 +21,8 @@
                     <td>描述</td>
                     <td>教练</td>
                     <td>球馆</td>
-                    <td>头像地址</td>
-                    <td>头像</td>
+                    <td>logo地址</td>
+                    <td>logo</td>
                     <td>操作</td>
                 </tr>
                 <tr 
@@ -87,33 +87,56 @@
 </template>
 <script>
 import teamSelect from '@/components/select-team';
+import {getTeamInfor} from '@/api/api';
 export default {
     name : 'team',
     components:{teamSelect},
     data(){
         return {
             teamArr : [
-                {
-                    tid : 'wteam01',
-                    part : '西部',
-                    fName : '休斯顿火箭',
-                    tName : '火箭',
-                    wNum : 30,
-                    fNum : 10,
-                    rate : 0.75,
-                    rank : 4,
-                    states : '1连胜',
-                    logoSrc : '../../images/logo/rocket.svg',
-                    tDes : 'hahahahha',
-                    coach : '德安东尼',
-                    groupName : '丰田中心'
-                }
+                // {
+                //     tid : 'wteam01',
+                //     part : '西部',
+                //     fName : '休斯顿火箭',
+                //     tName : '火箭',
+                //     wNum : 30,
+                //     fNum : 10,
+                //     rate : 0.75,
+                //     rank : 4,
+                //     states : '1连胜',
+                //     logoSrc : '../../images/logo/rocket.svg',
+                //     tDes : 'hahahahha',
+                //     coach : '德安东尼',
+                //     groupName : '丰田中心'
+                // }
             ]
         }
     },
     methods:{
         handleTeam(val){
-            console.log(val);
+            // console.log(val);
+            if(val){
+               getTeamInfor(val).then(res=>{
+                //    console.log(res.data);
+                   let obj = {
+                        tid : val,
+                        part : res.data.info[0][0].part,
+                        fName : res.data.info[0][0].fName,
+                        tName : res.data.info[0][0].tName,
+                        wNum : res.data.info[0][0].wNum,
+                        fNum : res.data.info[0][0].fNum,
+                        rate : res.data.info[0][0].rate,
+                        rank : res.data.info[0][0].rank,
+                        states : res.data.info[0][0].states,
+                        logoSrc : res.data.info[0][0].logoSrc,
+                        tDes : res.data.info[0][0].tDes,
+                        coach : res.data.info[0][0].coach,
+                        groupName : res.data.info[0][0].groupName
+                   }
+                   this.teamArr = [];
+                   this.teamArr.push(obj)
+               }).catch(err=>{console.log(err);})
+            }
         },
          // 更换头像
         changeTx(){

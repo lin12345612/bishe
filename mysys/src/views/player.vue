@@ -254,6 +254,7 @@ export default {
         getTeam(){
             getTeam().then(res=>{
                 // console.log(res.data);
+                
                 let _arr = [...res.data.info[0],...res.data.info[1]]
                 this.tr.push({
                     value : '',
