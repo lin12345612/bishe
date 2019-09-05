@@ -31,7 +31,7 @@ module.exports = {
     },
     // 获取球队信息
     getTeamInfor:
-        `SELECT fName,wNum,fNum,states,logoSrc,part,logoSrc,tDes,coach,groupName,ranks FROM teaminfor WHERE tid=?;
+        `SELECT fName,wNum,fNum,states,logoSrc,part,logoSrc,tDes,coach,groupName,ranks,rate,tName FROM teaminfor WHERE tid=?;
         SELECT pid,player,imgSrc,number from playerinfor where tid=?;
         SELECT newTitle,newSrc FROM teamnews WHERE tid=? ORDER BY keyid DESC LIMIT 0,8;
         `,
