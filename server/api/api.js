@@ -1318,5 +1318,26 @@ module.exports = {
                 connection.release()
             })
         })
+    },
+    // 删除新闻
+    sysDelNews(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let keyid = req.body.keyid;
+            var sql = sqlMap.sysDelNews(keyid);
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
     }
 }

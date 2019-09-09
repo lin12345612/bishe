@@ -84,7 +84,7 @@ module.exports = {
     },
     // 查询球队新闻
     getTeamNews:function(tn,page){
-        return `SELECT newSrc,newTitle FROM teamnews WHERE tid="${tn}" ORDER BY keyid DESC LIMIT ${page},8;`
+        return `SELECT keyid,newSrc,newTitle FROM teamnews WHERE tid="${tn}" ORDER BY keyid DESC LIMIT ${page},8;`
     },
     // 获取热门球星
     getHotPlayer:'SELECT player,pid from hotplayer ;',
@@ -163,5 +163,9 @@ module.exports = {
     // 新增球队
     sysAddTeam(part,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName,tid){
         return `INSERT INTO teaminfor(part,tid,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName) VALUES('${part}','${tid}','${fName}','${tName}',${wNum},${fNum},${rate},${ranks},'${states}','${logoSrc}','${tDes}','${coach}','${groupName}');`
+    },
+    // 删除新闻
+    sysDelNews(kid){
+        return `DELETE FROM teamnews WHERE keyid=${kid};`
     }
 }

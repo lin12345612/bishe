@@ -145,3 +145,25 @@ export function modifyTeam(sid,part,tid,fName,tName,wNum,fNum,rate,ranks,states,
         }
     })
 }
+
+// 查询球队新闻
+export function getTeamNews(team,page){
+    return service({
+        url : '/api/getTeamNews',
+        method:'post',
+        data:{
+           team,page
+        }
+    })
+}
+
+// 删除新闻
+export function delNews(keyid){
+    return service({
+        url : '/api/sysDelNews',
+        method:'post',
+        data:{
+           keyid
+        }
+    })
+}

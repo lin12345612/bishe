@@ -224,4 +224,9 @@ router.post('/api/sysOperaTeam',(req,res,next)=>{
   api.sysOperaTeam(req,res,next)
 })
 
+// 删除新闻
+router.post('/api/sysDelNews',(req,res,next)=>{
+  api.sysDelNews(req,res,next);
+})
+
 module.exports = router;
