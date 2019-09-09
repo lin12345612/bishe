@@ -1279,5 +1279,44 @@ module.exports = {
                 connection.release()
             })
         })
+    },
+    // 保存以及新增球队信息
+    sysOperaTeam(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let sid = req.body.sid;
+            let part = req.body.part;
+            let tid = req.body.tid;
+            let fName = req.body.fName;
+            let tName = req.body.tName;
+            let wNum  = req.body.wNum;
+            let fNum = req.body.fNum;
+            let rate = req.body.rate;
+            let ranks = req.body.ranks;
+            let states = req.body.states;
+            let logoSrc = req.body.logoSrc;
+            let tDes = req.body.tDes;
+            let coach = req.body.coach;
+            let groupName = req.body.groupName;
+            var sql = null;
+            if(sid){
+                sql = sqlMap.sysModifyTeam(part,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName,tid);
+            }else{
+                sql = sqlMap.sysAddTeam(part,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName,tid)
+            }
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
     }
 }

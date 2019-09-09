@@ -31,7 +31,7 @@ module.exports = {
     },
     // 获取球队信息
     getTeamInfor:
-        `SELECT fName,wNum,fNum,states,logoSrc,part,logoSrc,tDes,coach,groupName,ranks,rate,tName FROM teaminfor WHERE tid=?;
+        `SELECT sid,fName,wNum,fNum,states,logoSrc,part,logoSrc,tDes,coach,groupName,ranks,rate,tName FROM teaminfor WHERE tid=?;
         SELECT pid,player,imgSrc,number from playerinfor where tid=?;
         SELECT newTitle,newSrc FROM teamnews WHERE tid=? ORDER BY keyid DESC LIMIT 0,8;
         `,
@@ -155,6 +155,13 @@ module.exports = {
     // 删除球员生涯数据
     sysDelPlayerCareer(sid){
         return `DELETE FROM playercareer WHERE sid=${sid};`;
+    },
+    // 保存球队信息
+    sysModifyTeam(part,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName,tid){
+        return `UPDATE teaminfor SET part='${part}',fName='${fName}',tName='${tName}',wNum=${wNum},fNum=${fNum},rate=${rate},ranks=${ranks},states='${states}',logoSrc='${logoSrc}',tDes='${tDes}',coach='${coach}',groupName='${groupName}' WHERE tid='${tid}';`
+    },
+    // 新增球队
+    sysAddTeam(part,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName,tid){
+        return `INSERT INTO teaminfor(part,tid,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName) VALUES('${part}','${tid}','${fName}','${tName}',${wNum},${fNum},${rate},${ranks},'${states}','${logoSrc}','${tDes}','${coach}','${groupName}');`
     }
-
 }

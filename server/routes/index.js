@@ -219,6 +219,9 @@ router.post('/api/sysDelPlayerCareer',(req,res,next)=>{
   api.sysDelPlayerCareer(req,res,next);
 })
 
-
+// 保存、新增球队
+router.post('/api/sysOperaTeam',(req,res,next)=>{
+  api.sysOperaTeam(req,res,next)
+})
 
 module.exports = router;
