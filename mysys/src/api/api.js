@@ -134,3 +134,14 @@ export function getTeamInfor(team){
         }
     })
 }
+
+// 修改球队信息
+export function modifyTeam(sid,part,tid,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName){
+    return service({
+        url : '/api/sysOperaTeam',
+        method:'post',
+        data:{
+           sid,part,tid,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName
+        }
+    })
+}

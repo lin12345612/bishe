@@ -301,9 +301,9 @@ export default {
             let index = arguments[0]
             let tag = arguments[1][0]
             this.qyxxArr[index].tid = tag
-            console.log(tag);
-            console.log(index);
-            console.log(this.qyxxArr[index].tid);
+            // console.log(tag);
+            // console.log(index);
+            // console.log(this.qyxxArr[index].tid);
         },
         // 关闭荣誉弹窗
         closepop(){
@@ -374,7 +374,7 @@ export default {
             let formd = new FormData();
             formd.append('myfile',this.qyxxArr[index].imgfile);
             formd.append('path',this.qyxxArr[index].imgSrc);
-            console.log(formd);
+            // console.log(formd);
             uploadPlayerTx(formd).then(res=>{
                 if(res.data.success){
                     Message.success({
