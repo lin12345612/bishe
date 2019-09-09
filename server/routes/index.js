@@ -10,6 +10,7 @@ const upload = multer({storage:storage});
 
 /* GET home page. */
 router.get('/pc/', function(req, res, next) {
+  api.recordVisitor(req,res,next)
   res.render('index');
 });
 router.get('/pc/*', function(req, res, next) {

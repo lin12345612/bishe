@@ -17,6 +17,10 @@ const pool = mysql.createPool({
 })
 
 module.exports = {
+    // 记录ip
+    recordVisitor(req,res,next){
+        console.log(utils.handleIp(req.ip));
+    },
     // 获取球队排名
     getTeamRank(req,res,next){
         pool.getConnection((err,connection) =>{
