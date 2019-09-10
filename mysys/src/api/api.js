@@ -167,3 +167,47 @@ export function delNews(keyid){
         }
     })
 }
+
+// 获取赛程
+export function getScheme(page){
+    return service({
+        url : '/api/sysGetScheme',
+        method:'get',
+        params:{
+           page
+        }
+    })
+}
+
+// 筛选赛程
+export function filterScheme(time){
+    return service({
+        url : '/api/sysFilterScheme',
+        method:'get',
+        params:{
+           time
+        }
+    })
+}
+
+// 删除赛程
+export function delScheme(delArr){
+    return service({
+        url : '/api/sysDelScheme',
+        method:'post',
+        data:{
+           delArr
+        }
+    })
+}
+
+// 获取留言
+export function getMessage(page){
+    return service({
+        url : '/api/sysGetMessage',
+        method:'get',
+        params:{
+           page
+        }
+    })
+}

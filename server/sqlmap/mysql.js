@@ -167,5 +167,34 @@ module.exports = {
     // 删除新闻
     sysDelNews(kid){
         return `DELETE FROM teamnews WHERE keyid=${kid};`
+    },
+    // 获取访客
+    getVisitNumber(ip){
+        return `SELECT MAX(fwcs) as num FROM visit WHERE fwip='${ip}';`
+    },
+    // 记录访客
+    recordVisitor(fwip,fwsj,fwcs,fwzd){
+        return `INSERT INTO visit(fwip,fwsj,fwcs,fwzd) VALUES('${fwip}','${fwsj}',${fwcs},${fwzd});`
+    },
+    // 记录功能点击
+    recordFuncClick(djgn,djsj){
+        return `INSERT INTO func(djgn,djsj) VALUES('${djgn}','${djsj}');`
+    },
+    // 获取赛程
+    sysGetScheme(page){
+        return `SELECT scKey,pDate,done,rTeam,hTeam,tscore FROM teamscheme ORDER BY pDate DESC LIMIT ${page},15;`
+    },
+    // 根据日期筛选赛程
+    sysFilterScheme(time){
+        return `SELECT scKey,pDate,done,rTeam,hTeam,tscore FROM teamscheme WHERE pDate BETWEEN '${time} 00:00:00' AND '${time} 23:59:59';`
+    },
+    // 删除赛程
+    sysDelScheme(id){
+        return `DELETE FROM teamscheme WHERE scKey IN ${id};`
+    },
+    // 获取留言
+    sysGetMessage(page){
+        return `SELECT opinion FROM fankui ORDER BY oid DESC LIMIT ${page},18;`
     }
+
 }
