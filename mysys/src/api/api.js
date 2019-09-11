@@ -240,3 +240,14 @@ export function cancelWelPlayer(sid){
         }
     })
 }
+
+// 获取用户
+export function getUser(page){
+    return service({
+        url : '/api/sysGetUser',
+        method:'get',
+        params:{
+            page
+        }
+    })
+}
