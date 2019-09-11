@@ -211,3 +211,32 @@ export function getMessage(page){
         }
     })
 }
+
+// 热门球星
+export function getWelPlayer(){
+    return service({
+        url : '/api/getHotPlayer',
+    })
+}
+
+// 设置热门球星
+export function setWelPlayer(pid,player){
+    return service({
+        url : '/api/sysSetWelPlayer',
+        method:'post',
+        data:{
+           pid,player
+        }
+    })
+}
+
+// 取消设置热门球星
+export function cancelWelPlayer(sid){
+    return service({
+        url : '/api/sysCancelPlayer',
+        method:'post',
+        data:{
+           sid
+        }
+    })
+}
