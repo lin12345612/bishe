@@ -267,5 +267,9 @@ router.post('/api/sysCancelPlayer',(req,res,next)=>{
   api.sysCancelWelPlayer(req,res,next)
 })
 
+// 获取用户
+router.get('/api/sysGetUser',(req,res,next)=>{
+  api.sysGetUser(req,res,next)
+})
 
 module.exports = router;

@@ -203,5 +203,9 @@ module.exports = {
     // 取消设置热门球星
     sysCancelWelPlayer(sid){
         return `DELETE FROM hotplayer WHERE sid=${sid};`
+    },
+    // 获取用户
+    sysGetUser(page){
+        return `SELECT mail,nickname FROM user WHERE selected IS NOT NULL LIMIT ${page},15;`
     }
 }
