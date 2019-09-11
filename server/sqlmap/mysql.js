@@ -87,7 +87,7 @@ module.exports = {
         return `SELECT keyid,newSrc,newTitle FROM teamnews WHERE tid="${tn}" ORDER BY keyid DESC LIMIT ${page},8;`
     },
     // 获取热门球星
-    getHotPlayer:'SELECT player,pid from hotplayer ;',
+    getHotPlayer:'SELECT sid,player,pid from hotplayer ;',
     // 获取球队信息
     getPlayerByTeam:function(qd){
         return `SELECT pid,player FROM playerinfor WHERE tid="${qd}";`
@@ -195,6 +195,13 @@ module.exports = {
     // 获取留言
     sysGetMessage(page){
         return `SELECT opinion FROM fankui ORDER BY oid DESC LIMIT ${page},18;`
+    },
+    // 设置热门球星
+    sysSetWelPlayer(pid,player){
+        return `INSERT INTO hotplayer(pid,player) VALUES(${pid},'${player}');`
+    },
+    // 取消设置热门球星
+    sysCancelWelPlayer(sid){
+        return `DELETE FROM hotplayer WHERE sid=${sid};`
     }
-
 }

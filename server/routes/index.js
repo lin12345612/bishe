@@ -252,8 +252,20 @@ router.post('/api/sysDelScheme',(req,res,next)=>{
   api.sysDelScheme(req,res,next)
 })
 
+// 获取留言信息
 router.get('/api/sysGetMessage',(req,res,next)=>{
   api.sysGetMessage(req,res,next)
 })
+
+// 设置热门球星
+router.post('/api/sysSetWelPlayer',(req,res,next)=>{
+  api.sysSetWelPlayer(req,res,next)
+})
+
+// 取消设置热门球星
+router.post('/api/sysCancelPlayer',(req,res,next)=>{
+  api.sysCancelWelPlayer(req,res,next)
+})
+
 
 module.exports = router;

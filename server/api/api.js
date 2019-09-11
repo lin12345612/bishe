@@ -1488,5 +1488,48 @@ module.exports = {
                 connection.release()
             })
         })
+    },
+    // 设置热门球星
+    sysSetWelPlayer(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let pid = req.body.pid;
+            let player = req.body.player;
+            var sql = sqlMap.sysSetWelPlayer(pid,player)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 取消热门球星
+    sysCancelWelPlayer(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let sid = req.body.sid
+            var sql = sqlMap.sysCancelWelPlayer(sid)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
     }
 }
