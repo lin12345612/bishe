@@ -44,6 +44,11 @@ export default new Router({
           path:'user',
           name : 'user',
           component: () => import(/* webpackChunkName: "user" */ './views/user.vue')
+        },
+        {
+          path:'hotplayer',
+          name : 'hotplayer',
+          component: () => import(/* webpackChunkName: "hotplayer" */ './views/hotplayer.vue')
         }
       ]
     },

@@ -87,7 +87,7 @@ module.exports = {
         return `SELECT keyid,newSrc,newTitle FROM teamnews WHERE tid="${tn}" ORDER BY keyid DESC LIMIT ${page},8;`
     },
     // 获取热门球星
-    getHotPlayer:'SELECT player,pid from hotplayer ;',
+    getHotPlayer:'SELECT sid,player,pid from hotplayer ;',
     // 获取球队信息
     getPlayerByTeam:function(qd){
         return `SELECT pid,player FROM playerinfor WHERE tid="${qd}";`
@@ -167,5 +167,45 @@ module.exports = {
     // 删除新闻
     sysDelNews(kid){
         return `DELETE FROM teamnews WHERE keyid=${kid};`
+    },
+    // 获取访客
+    getVisitNumber(ip){
+        return `SELECT MAX(fwcs) as num FROM visit WHERE fwip='${ip}';`
+    },
+    // 记录访客
+    recordVisitor(fwip,fwsj,fwcs,fwzd){
+        return `INSERT INTO visit(fwip,fwsj,fwcs,fwzd) VALUES('${fwip}','${fwsj}',${fwcs},${fwzd});`
+    },
+    // 记录功能点击
+    recordFuncClick(djgn,djsj){
+        return `INSERT INTO func(djgn,djsj) VALUES('${djgn}','${djsj}');`
+    },
+    // 获取赛程
+    sysGetScheme(page){
+        return `SELECT scKey,pDate,done,rTeam,hTeam,tscore FROM teamscheme ORDER BY pDate DESC LIMIT ${page},15;`
+    },
+    // 根据日期筛选赛程
+    sysFilterScheme(time){
+        return `SELECT scKey,pDate,done,rTeam,hTeam,tscore FROM teamscheme WHERE pDate BETWEEN '${time} 00:00:00' AND '${time} 23:59:59';`
+    },
+    // 删除赛程
+    sysDelScheme(id){
+        return `DELETE FROM teamscheme WHERE scKey IN ${id};`
+    },
+    // 获取留言
+    sysGetMessage(page){
+        return `SELECT opinion FROM fankui ORDER BY oid DESC LIMIT ${page},18;`
+    },
+    // 设置热门球星
+    sysSetWelPlayer(pid,player){
+        return `INSERT INTO hotplayer(pid,player) VALUES(${pid},'${player}');`
+    },
+    // 取消设置热门球星
+    sysCancelWelPlayer(sid){
+        return `DELETE FROM hotplayer WHERE sid=${sid};`
+    },
+    // 获取用户
+    sysGetUser(page){
+        return `SELECT mail,nickname FROM user WHERE selected IS NOT NULL LIMIT ${page},15;`
     }
 }

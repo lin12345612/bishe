@@ -167,3 +167,87 @@ export function delNews(keyid){
         }
     })
 }
+
+// 获取赛程
+export function getScheme(page){
+    return service({
+        url : '/api/sysGetScheme',
+        method:'get',
+        params:{
+           page
+        }
+    })
+}
+
+// 筛选赛程
+export function filterScheme(time){
+    return service({
+        url : '/api/sysFilterScheme',
+        method:'get',
+        params:{
+           time
+        }
+    })
+}
+
+// 删除赛程
+export function delScheme(delArr){
+    return service({
+        url : '/api/sysDelScheme',
+        method:'post',
+        data:{
+           delArr
+        }
+    })
+}
+
+// 获取留言
+export function getMessage(page){
+    return service({
+        url : '/api/sysGetMessage',
+        method:'get',
+        params:{
+           page
+        }
+    })
+}
+
+// 热门球星
+export function getWelPlayer(){
+    return service({
+        url : '/api/getHotPlayer',
+    })
+}
+
+// 设置热门球星
+export function setWelPlayer(pid,player){
+    return service({
+        url : '/api/sysSetWelPlayer',
+        method:'post',
+        data:{
+           pid,player
+        }
+    })
+}
+
+// 取消设置热门球星
+export function cancelWelPlayer(sid){
+    return service({
+        url : '/api/sysCancelPlayer',
+        method:'post',
+        data:{
+           sid
+        }
+    })
+}
+
+// 获取用户
+export function getUser(page){
+    return service({
+        url : '/api/sysGetUser',
+        method:'get',
+        params:{
+            page
+        }
+    })
+}

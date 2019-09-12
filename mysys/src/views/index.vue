@@ -42,6 +42,10 @@ export default {
                     nav   : '/scheme'
                 },
                 {
+                    title : '热门球星',
+                    nav   : '/hotplayer'
+                },
+                {
                     title : '留言',
                     nav   : '/message'
                 },
@@ -72,9 +76,9 @@ export default {
         top: 0;
         left: 0;
         right: 0;
-        bottom: 0;
+        // bottom: 0;
         width:100%;
-        height:100%;
+        min-height:100%;
         background-color:#f5f5f5;
         padding-left:100px;
         padding-top: 50px;
