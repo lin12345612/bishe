@@ -17,6 +17,63 @@ const pool = mysql.createPool({
 })
 
 module.exports = {
+    // 记录ip
+    recordVisitor(req,number){
+        // console.log(utils.handleIp(req.ip));
+        let ip = utils.handleIp(req.ip)
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            var sql = sqlMap.getVisitNumber(ip) 
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    // res.send(err)
+                    console.log(err);
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                let _result = JSON.parse(JSON.stringify(result))
+                let _number = 1;
+                if(_result[0].num){
+                    _number = _result[0].num + 1;
+                }
+                let _time = utils.recordTime();
+                let _sql1 = sqlMap.recordVisitor(ip,_time,_number,number);
+                connection.query(_sql1,(err,data)=>{
+                    if(err){
+                        console.log(err);
+                        connection.release();
+                        return ;
+                    }
+                    connection.release()
+                })
+                // res.send(_res);
+            })
+        })
+    },
+    // 记录点击功能
+    recordClick(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let gndj = req.body.gndj;
+            let djsj = utils.recordTime();
+            var sql = sqlMap.recordFuncClick(gndj,djsj);
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
     // 获取球队排名
     getTeamRank(req,res,next){
         pool.getConnection((err,connection) =>{
@@ -209,7 +266,17 @@ module.exports = {
             from : 'nbachat@foxmail.com',//发件人
             subject : '验证码',
             to : _yh,
-            text : `您好，验证码为：${num}，一分钟内有效，请勿泄露！`
+            html : `<div style="overflow:hidden;width:600px;height:180px;position:relative;border-radius:8px;background: #F1F1F1;box-sizing: border-box;padding: 0 20px">
+            <div style="box-sizing: border-box;width: 100%;height: 68px;border-bottom: 1px solid rgba(0,0,0,.08);padding-left: 40px;display: flex;align-items: center;position: relative;
+            " >
+                <span style="display: block;width:30px;height: 30px;position: absolute;top: 50%;margin-top: -15px;left: 0;background-color: #fff;border-radius: 50%;overflow: hidden;"></span>
+                <p style="font-size: 16px;color:#19191A;font-weight: bold;">美职篮随聊</p>
+            </div>
+            <div style="height:110px;position:relative;padding-top:30px; box-sizing:border-box;">
+                <p style="font-size:14px;margin:0 0 15px 0;color: #19191A;font-weight: bold;">尊敬的用户，本次的验证码：<span style="color:rgb(242, 90, 41);font-size: 18px;">${num}</span></p>
+                <p style="color: #19191A;opacity:0.6 ;font-size:12px;">有效期30分钟，请勿泄漏</p>
+            </div>
+        </div>`
         }
         sendMailer(mail1);
         pool.getConnection((err,connection) =>{
@@ -1124,7 +1191,7 @@ module.exports = {
                     return '数据请求出错，请检查sql语句或者语法';
                 }
                 let _result = JSON.parse(JSON.stringify(result));
-                console.log(_result);
+                // console.log(_result);
                 _res.pid = _result[1][0].pid;
                 _res.success = true;
                 res.send(_res);
@@ -1275,6 +1342,254 @@ module.exports = {
                     return '数据请求出错，请检查sql语句或者语法';
                 }
                 _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 保存以及新增球队信息
+    sysOperaTeam(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let sid = req.body.sid;
+            let part = req.body.part;
+            let tid = req.body.tid;
+            let fName = req.body.fName;
+            let tName = req.body.tName;
+            let wNum  = req.body.wNum;
+            let fNum = req.body.fNum;
+            let rate = req.body.rate;
+            let ranks = req.body.ranks;
+            let states = req.body.states;
+            let logoSrc = req.body.logoSrc;
+            let tDes = req.body.tDes;
+            let coach = req.body.coach;
+            let groupName = req.body.groupName;
+            var sql = null;
+            if(sid){
+                sql = sqlMap.sysModifyTeam(part,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName,tid);
+            }else{
+                sql = sqlMap.sysAddTeam(part,fName,tName,wNum,fNum,rate,ranks,states,logoSrc,tDes,coach,groupName,tid)
+            }
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 删除新闻
+    sysDelNews(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let keyid = req.body.keyid;
+            var sql = sqlMap.sysDelNews(keyid);
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 分页获取所有赛程
+    sysGetScheme(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let page = req.query.page;
+            var sql = sqlMap.sysGetScheme(page)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.result = result;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 筛选赛程
+    sysFilterSheme(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let _time = req.query.time;
+            var sql = sqlMap.sysFilterScheme(_time)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.result = result;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 删除赛程
+    sysDelScheme(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let arr = req.body.delArr;
+            let str = '(';
+            for(var g = 0 ; g < arr.length ; g++){
+                if(g != arr.length -1){
+                    str += `${arr[g]},`
+                }  else{
+                    str += `${arr[g]})`
+                }
+            }
+            var sql = sqlMap.sysDelScheme(str)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 获取留言
+    sysGetMessage(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let page = req.query.page;
+            var sql = sqlMap.sysGetMessage(page)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.result = result;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 设置热门球星
+    sysSetWelPlayer(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let pid = req.body.pid;
+            let player = req.body.player;
+            var sql = sqlMap.sysSetWelPlayer(pid,player)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 取消热门球星
+    sysCancelWelPlayer(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let sid = req.body.sid
+            var sql = sqlMap.sysCancelWelPlayer(sid)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.success = true;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 获取用户
+    sysGetUser(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let page = req.query.page;
+            var sql = sqlMap.sysGetUser(page); 
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                _res.result = result;
+                res.send(_res);
+                connection.release()
+            })
+        })
+    },
+    // 统计访客
+    sysCountVisit(req,res,next){
+        pool.getConnection((err,connection) =>{
+            if(err){
+                return '连接出错了，请处理'
+            }
+            let st = req.query.st;
+            let et = req.query.et;
+            // console.log(st);
+            // console.log(et);
+            var sql = sqlMap.sysVisitCount(st,et)
+            var _res = {}
+            connection.query(sql,(err,result) =>{
+                if(err){
+                    res.send(err)
+                    connection.release()
+                    return '数据请求出错，请检查sql语句或者语法';
+                }
+                let _result = JSON.parse(JSON.stringify(result))
+                console.log(_result);
+                let obj = {
+                    newip : _result[0][0].fwip,
+                    allip : _result[1][0].fwip,
+                    pcdzs : _result[2][0].fwip,
+                    yddzs : _result[3][0].fwip
+                }
+                _res.count = obj;
                 res.send(_res);
                 connection.release()
             })

@@ -10,14 +10,16 @@ const upload = multer({storage:storage});
 
 /* GET home page. */
 router.get('/pc/', function(req, res, next) {
-  res.render('index');
+  api.recordVisitor(req,0)
+  res.render('index1');
 });
 router.get('/pc/*', function(req, res, next) {
   res.redirect('/pc/')
 });
 
 router.get('/mobile/', function(req, res, next) {
-  res.render('index1');
+  api.recordVisitor(req,1)
+  res.render('index2');
 });
 router.get('/mobile/*', function(req, res, next) {
   res.redirect('/mobile/')
@@ -25,6 +27,12 @@ router.get('/mobile/*', function(req, res, next) {
 
 
 // api
+// 功能点击
+router.post('/api/recordClick',(req,res,next)=>{
+  api.recordClick(req,res,next)
+})
+
+
 // 首页请求球队排名
 router.get('/api/getTeamRank',(req,res,next) =>{
     api.getTeamRank(req,res,next)
@@ -219,6 +227,54 @@ router.post('/api/sysDelPlayerCareer',(req,res,next)=>{
   api.sysDelPlayerCareer(req,res,next);
 })
 
+// 保存、新增球队
+router.post('/api/sysOperaTeam',(req,res,next)=>{
+  api.sysOperaTeam(req,res,next)
+})
 
+// 删除新闻
+router.post('/api/sysDelNews',(req,res,next)=>{
+  api.sysDelNews(req,res,next);
+})
+
+// 分页获取赛程
+router.get('/api/sysGetScheme',(req,res,next)=>{
+  api.sysGetScheme(req,res,next)
+})
+
+// 筛选赛程
+router.get('/api/sysFilterScheme',(req,res,next)=>{
+  api.sysFilterSheme(req,res,next)
+})
+
+// 删除赛程
+router.post('/api/sysDelScheme',(req,res,next)=>{
+  api.sysDelScheme(req,res,next)
+})
+
+// 获取留言信息
+router.get('/api/sysGetMessage',(req,res,next)=>{
+  api.sysGetMessage(req,res,next)
+})
+
+// 设置热门球星
+router.post('/api/sysSetWelPlayer',(req,res,next)=>{
+  api.sysSetWelPlayer(req,res,next)
+})
+
+// 取消设置热门球星
+router.post('/api/sysCancelPlayer',(req,res,next)=>{
+  api.sysCancelWelPlayer(req,res,next)
+})
+
+// 获取用户
+router.get('/api/sysGetUser',(req,res,next)=>{
+  api.sysGetUser(req,res,next)
+})
+
+// 获取统计
+router.get('/api/sysCount',(req,res,next)=>{
+  api.sysCountVisit(req,res,next);
+})
 
 module.exports = router;

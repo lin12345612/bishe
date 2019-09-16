@@ -251,3 +251,14 @@ export function getUser(page){
         }
     })
 }
+
+// 获取统计
+export function getCount(st,et){
+    return service({
+        url : '/api/sysCount',
+        method:'get',
+        params:{
+           st,et
+        }
+    })
+}

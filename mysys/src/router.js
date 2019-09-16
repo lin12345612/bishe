@@ -12,9 +12,14 @@ export default new Router({
       path: '/',
       name: 'index',
       // redirect:'/login',
-      redirect:'/player',
+      redirect:'/count',
       component: Index,
       children:[
+        {
+          path : 'count',
+          name:'count',
+          component: () => import(/* webpackChunkName: "count" */ './views/count.vue')
+        },
         {
           path : 'player',
           name:'player',

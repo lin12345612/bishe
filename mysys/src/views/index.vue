@@ -26,6 +26,10 @@ export default {
         return {
             navArr : [
                 {
+                    title : '统计',
+                    nav   : '/count'
+                },
+                {
                     title : '球员管理',
                     nav   : '/player'
                 },
